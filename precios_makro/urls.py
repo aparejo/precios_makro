@@ -20,6 +20,7 @@ from precios import views
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
+from precios.views import agregar_sede, sucursales
 
 class CustomLoginView(LoginView):
     template_name = 'authentication/login.html'
@@ -30,4 +31,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='authentication/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('', views.BASE, name='BASE'),
+    path('productos/', views.productos, name='productos'),
+    path('agregar-sede/', agregar_sede, name='agregar_sede'),
+    path('sucursales/', sucursales, name='sucursales'),
 ]

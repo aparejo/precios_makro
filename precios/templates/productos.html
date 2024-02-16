@@ -268,7 +268,7 @@ License: For each use you must have a valid license purchased only from above li
 									<!--begin::Search-->
 									<div id="kt_header_search" class="header-search d-flex align-items-center w-lg-250px" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="menu" data-kt-search-responsive="false" data-kt-menu-trigger="auto" data-kt-menu-permanent="true" data-kt-menu-placement="bottom-end">
 										<!--begin::Form-->
-										<form method="post" action="{% url 'buscar_participante' %}">
+										<form method="GET" action="{% url 'productos' %}">
 											<input type="hidden" />
 											<!--end::Hidden input-->
 											<!--begin::Icon-->
@@ -279,7 +279,7 @@ License: For each use you must have a valid license purchased only from above li
 											<!--end::Icon-->
 											
 												{% csrf_token %}
-												<input type="text" class="form-control custom-form-control ps-13" name="cedula" value="" placeholder="Buscar" data-kt-search-element="input" />
+												<input type="text" class="form-control custom-form-control ps-13" name="q" value="" placeholder="Buscar" data-kt-search-element="input" />
 											
 											<!--begin::Spinner-->
 											<span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
@@ -582,10 +582,10 @@ License: For each use you must have a valid license purchased only from above li
 										<!--begin::Heading-->
 										<div class="position-absolute text-white mb-8 ms-10 bottom-0">
 											<!--begin::Title-->
-											<h3 class="text-white fs-2qx fw-bold mb-3 m">Participantes</h3>
+											<h3 class="text-white fs-2qx fw-bold mb-3 m">Productos</h3>
 											<!--end::Title-->
 											<!--begin::Text-->
-											<div class="fs-5 fw-semibold">Reto BDX.</div>
+											<div class="fs-5 fw-semibold">Existencias.</div>
 											<!--end::Text-->
 										</div>
 										<!--end::Heading-->
@@ -602,35 +602,38 @@ License: For each use you must have a valid license purchased only from above li
 											<table>
 												<tr>
 													<th>Codigo</th>
-													<th>Productos</th>
+													<th>Producto</th>
 													<th>Precio</th>
 													<th>Existencia</th>
 													<th>Codigo de Barra</th>
 													
 												</tr>
-												{% for puntaje in puntajes %}
+												{% for producto in productos %}
 													<tr>
-														<td><a href="participante/{{ puntaje.codigo_id }}/">{{ puntaje.codigo }}</a></td>
-														<td>{{ puntaje.precio }}</td>
-														<td>{{ puntaje.existencia }} </td>
-														<td>{{ puntaje.barra }}</td>
+														<td><a href="producto/{{ producto.codigo_id }}/">{{ producto.codigo }}</a></td>
+														<td>{{ producto.descripcion }}</td>
+														<td>{{ producto.pvp_base }} </td>
+														<td>{{ producto.existencia_total }} </td>
+														<td>{{ producto.barra }}</td>
 														
 													</tr>
 												{% endfor %}
 											</table>
 											<div class="pagination">
-												<span class="page-links">
-													{% if page_obj.has_previous %}
-														<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+												<span class="step-links">
+													{% if productos.has_previous %}
+														<a href="?page=1">&laquo; primera</a>
+														<a href="?page={{ productos.previous_page_number }}">anterior</a>
 													{% endif %}
-													<span class="page-current">
-														Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-													</span>
-													{% if page_obj.has_next %}
-														<a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+											
+													<span class="current-page">{{ productos.number }}</span>
+											
+													{% if productos.has_next %}
+														<a href="?page={{ productos.next_page_number }}">siguiente</a>
+														<a href="?page={{ productos.paginator.num_pages }}">última &raquo;</a>
 													{% endif %}
 												</span>
-											  </div>
+											</div>
 											  {% endblock %}
 
 

@@ -61,6 +61,14 @@ def procesar_datos(data):
             producto.Guacara_pvp = item_data["V11_PVP"]
             producto.La_Vina = item_data["V13_EXIS"]
             producto.La_Vina_pvp = item_data["V13_PVP"]
+            producto.Puerto_Cabello=item_data["T24_EXIS"]
+            producto.Puerto_Cabello_pvp=item_data["T24_PVP"]
+            producto.Los_Teques=item_data["T25_EXIS"],
+            producto.Los_Teques_pvp=item_data["T25_PVP"]
+            producto.Ocumare_Tuy=item_data["V20_EXIS"]
+            producto.Ocumare_Tuy_pvp=item_data["V20_PVP"]
+            producto.Guaparo=item_data["V21_EXIS"]
+            producto.Guaparo_pvp=item_data["V21_PVP"]
             producto.save()
         except Producto.DoesNotExist:
             # Crea un nuevo objeto Producto
@@ -111,7 +119,18 @@ def procesar_datos(data):
                 Guacara=item_data["V11_EXIS"],
                 Guacara_pvp=item_data["V11_PVP"],
                 La_Vina=item_data["V13_EXIS"],
-                La_Vina_pvp=item_data["V13_PVP"],
+                La_Vina_pvp=item_data["V13_PVP"], 
+                Puerto_Cabello=item_data["T24_EXIS"],
+                Puerto_Cabello_pvp=item_data["T24_PVP"],
+                Los_Teques=item_data["T25_EXIS"],
+                Los_Teques_pvp=item_data["T25_PVP"],
+                Maracay=item_data["T30_EXIS"],
+                Maracay_pvp=item_data["T30_PVP"],
+                Ocumare_Tuy=item_data["V20_EXIS"],
+                Ocumare_Tuy_pvp=item_data["V20_PVP"],
+                Guaparo=item_data["V21_EXIS"],
+                Guaparo_pvp=item_data["V21_PVP"],
+                
                 
                 # Asigna los demás campos de acuerdo a tu modelo
             )
