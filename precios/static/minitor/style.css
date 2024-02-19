@@ -1,0 +1,54 @@
+.tv-1,
+.tv-1 * {
+  box-sizing: border-box;
+}
+.tv-1 {
+  background: #ffffff;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+}
+.mesa-de-trabajo-1-1 {
+  width: 1280px;
+  height: 737px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+}
+.toall-humedasx-72-pz-very-care {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  position: absolute;
+  left: 77px;
+  top: 215px;
+  width: 789px;
+  height: 124px;
+}
+.ref-precio-x-und {
+  color: #000000;
+  text-align: left;
+  font-family: "IstokWeb-Bold", sans-serif;
+  font-size: 54px;
+  font-weight: 700;
+  position: absolute;
+  left: 234px;
+  top: 387px;
+  width: 615px;
+  height: 68px;
+}
+._1-44 {
+  color: #000000;
+  text-align: left;
+  font-family: "PassionOne-Bold", sans-serif;
+  font-size: 235px;
+  font-weight: 700;
+  position: absolute;
+  left: 181px;
+  top: 430px;
+  width: 721px;
+  height: 205px;
+}

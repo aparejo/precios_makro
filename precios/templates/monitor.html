@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static './vars.css' %}" />
+    <link rel="stylesheet" href="{% static './style.css' %}" />
+
+    <style>
+      a,
+      button,
+      input,
+      select,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: none;
+        text-decoration: none;
+        appearance: none;
+        background: none;
+
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    {% block content %}
+    <div class="tv-1">
+      <img class="mesa-de-trabajo-1-1" src="mesa-de-trabajo-1-10.png" />
+      <div class="toall-humedasx-72-pz-very-care">
+        TOALL HUMEDASX72PZ VERY CARE
+      </div>
+      <div class="ref-precio-x-und">Ref. Precio x UND</div>
+      <div class="_1-44">$1,44</div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

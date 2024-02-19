@@ -2,6 +2,12 @@ from django import forms
 from precios.models import Sucursal
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
+from .models import Pantalla
+
+class PantallaForm(forms.ModelForm):
+    class Meta:
+        model = Pantalla
+        fields = ['nombre', 'sucursal', 'descripcion', 'tipo', 'id_producto']
 
 
 class SedeForm(forms.ModelForm):

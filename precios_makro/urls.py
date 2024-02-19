@@ -20,7 +20,8 @@ from precios import views
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
-from precios.views import agregar_sede, sucursales
+from precios.views import agregar_sede, sucursales, agregar_pantalla, pantalla_view, modificar_pantalla
+from precios import views
 
 app_name = 'administradores'
 class CustomLoginView(LoginView):
@@ -34,7 +35,12 @@ urlpatterns = [
     path('', views.BASE, name='BASE'),
     path('productos/', views.productos, name='productos'),
     path('agregar-sede/', agregar_sede, name='agregar_sede'),
+    path('agregar-pantalla/', agregar_pantalla, name='agregar_pantalla'),
     path('sucursales/', sucursales, name='sucursales'),
     path('administradores/', views.administradores, name='administradores'),
     path('agregar_administrador/', views.agregar_administrador, name='agregar_administrador'),
+    path('pantallas/', pantalla_view, name='pantallas'),
+    path('pantallas/<int:pantalla_id>/', views.ver_pantalla, name='ver_pantalla'),
+    path('pantallas/<int:pantalla_id>/modificar/', views.modificar_pantalla, name='modificar_pantalla'),
+    path('pantallas/<int:pantalla_id>/eliminar/', views.eliminar_pantalla, name='eliminar_pantalla'),
 ]

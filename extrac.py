@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'precios_makro.settings')
 django.setup()
 from precios.models import Producto
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00095000"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00005000"
 
 def obtener_datos_y_actualizar():
     try:
@@ -124,12 +124,12 @@ def procesar_datos(data):
                 Puerto_Cabello_pvp=item_data["T24_PVP"],
                 Los_Teques=item_data["T25_EXIS"],
                 Los_Teques_pvp=item_data["T25_PVP"],
-                Maracay=item_data["T30_EXIS"],
-                Maracay_pvp=item_data["T30_PVP"],
                 Ocumare_Tuy=item_data["V20_EXIS"],
                 Ocumare_Tuy_pvp=item_data["V20_PVP"],
                 Guaparo=item_data["V21_EXIS"],
                 Guaparo_pvp=item_data["V21_PVP"],
+                Maracay=item_data["T30_EXIS"],
+                Maracay_pvp=item_data["T30_PVP"],
                 
                 
                 # Asigna los demás campos de acuerdo a tu modelo

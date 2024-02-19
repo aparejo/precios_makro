@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 
 class Producto(models.Model):
-    codigo = models.CharField(max_length=20)
+    codigo = models.CharField(max_length=20, unique=True)
     descripcion = models.CharField(max_length=100)
     barra = models.CharField(max_length=20)
     referencia = models.CharField(max_length=50)
@@ -57,6 +57,8 @@ class Producto(models.Model):
     Ocumare_Tuy_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
     Guaparo=models.CharField(max_length=8, default='N/A')
     Guaparo_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
+    Maracay=models.CharField(max_length=8, default='N/A')
+    Maracay_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
     
     def __str__(self):
         return f"{self.descripcion} - {self.codigo} - {self.marca} - {self.pvp_base}"
@@ -70,7 +72,7 @@ class Sucursal(models.Model):
 
 
 class Usuario(AbstractUser):
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
+    sucursal_id = models.ForeignKey(Sucursal, null=True, on_delete=models.SET_NULL)
     groups = models.ManyToManyField(Group, related_name='usuarios', blank=True)
     user_permissions = models.ManyToManyField(
         'auth.Permission',
@@ -82,3 +84,19 @@ class Usuario(AbstractUser):
     
     def __str__(self):
         return self.username
+    
+class Pantalla(models.Model):
+    TIPO_CHOICES = (
+        ('vertical', 'Pantalla vertical'),
+        ('horizontal', 'Pantalla horizontal'),
+    )
+
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    sucursal = models.ForeignKey('Sucursal', on_delete=models.CASCADE)
+    descripcion = models.TextField()
+    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
+    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, to_field='codigo', db_column='id_producto')
+
+    def __str__(self):
+        return self.nombre
