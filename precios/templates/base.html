@@ -204,7 +204,7 @@ License: For each use you must have a valid license purchased only from above li
 									<!--begin::Search-->
 									<div id="kt_header_search" class="header-search d-flex align-items-center w-lg-250px" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="menu" data-kt-search-responsive="false" data-kt-menu-trigger="auto" data-kt-menu-permanent="true" data-kt-menu-placement="bottom-end">
 										<!--begin::Form-->
-										<form method="post" action="">
+										<form method="GET" action="{% url 'productos' %}">
 											<input type="hidden" />
 											<!--end::Hidden input-->
 											<!--begin::Icon-->
@@ -215,7 +215,7 @@ License: For each use you must have a valid license purchased only from above li
 											<!--end::Icon-->
 											
 												{% csrf_token %}
-												<input type="text" class="form-control custom-form-control ps-13" name="cedula" value="" placeholder="Buscar" data-kt-search-element="input" />
+												<input type="text" class="form-control custom-form-control ps-13" name="q" value="" placeholder="Buscar" data-kt-search-element="input" />
 											
 											<!--begin::Spinner-->
 											<span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
@@ -555,6 +555,21 @@ License: For each use you must have a valid license purchased only from above li
 														<span class="path4"></span>
 													</i>
 													<span class="fs-4 fw-bold">Sucursales</span>
+												</a>
+												<!--end::Link-->
+											</div>
+											<!--end::Card-->
+										</div>
+										<div class="col-6">
+											<!--begin::Card-->
+											<div class="card card-stretch">
+												<!--begin::Link-->
+												<a href="../../administradores" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-security-user fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+													</i>
+													<span class="fs-4 fw-bold">Administradores</span>
 												</a>
 												<!--end::Link-->
 											</div>

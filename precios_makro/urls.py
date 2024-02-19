@@ -22,6 +22,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
 from precios.views import agregar_sede, sucursales
 
+app_name = 'administradores'
 class CustomLoginView(LoginView):
     template_name = 'authentication/login.html'
 
@@ -34,4 +35,6 @@ urlpatterns = [
     path('productos/', views.productos, name='productos'),
     path('agregar-sede/', agregar_sede, name='agregar_sede'),
     path('sucursales/', sucursales, name='sucursales'),
+    path('administradores/', views.administradores, name='administradores'),
+    path('agregar_administrador/', views.agregar_administrador, name='agregar_administrador'),
 ]
