@@ -43,4 +43,5 @@ urlpatterns = [
     path('pantallas/<int:pantalla_id>/', views.ver_pantalla, name='ver_pantalla'),
     path('pantallas/<int:pantalla_id>/modificar/', views.modificar_pantalla, name='modificar_pantalla'),
     path('pantallas/<int:pantalla_id>/eliminar/', views.eliminar_pantalla, name='eliminar_pantalla'),
+    path('maracay/<str:nombre_pantalla>/', views.mostrar_pantalla_mcy, name='mostrar_pantalla_mcy'),
 ]

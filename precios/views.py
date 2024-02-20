@@ -8,6 +8,14 @@ from .forms import AdminForm
 from precios.models import Usuario, Pantalla
 from .forms import PantallaForm, Pantalla 
 
+def mostrar_pantalla_mcy(request, nombre_pantalla):
+    pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()
+
+    context = {
+        'pantalla': pantalla,
+    }
+    return render(request, 'monitor-mcy.html', context)
+
 def pantalla_view(request):
     pantallas = Pantalla.objects.all()
     return render(request, 'pantallas.html', {'pantallas': pantallas})
