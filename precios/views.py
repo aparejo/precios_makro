@@ -4,9 +4,26 @@ from .models import Producto, Sucursal
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from .forms import SedeForm
-from .forms import AdminForm
+from .forms import AdminForm, BarcodeForm
 from precios.models import Usuario, Pantalla
 from .forms import PantallaForm, Pantalla 
+
+def leer_codigo_de_barras(request):
+    context = {}  # Definir context con un valor por defecto
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                producto = Producto.objects.get(barra=barcode)
+                context['producto'] = producto  # Asignar el producto al context
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form  # Asignar el formulario al context
+
+    return render(request, 'validador_precios_vina.html', context)
 
 def mostrar_pantalla_mcy(request, nombre_pantalla):
     pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()
@@ -16,15 +33,18 @@ def mostrar_pantalla_mcy(request, nombre_pantalla):
     }
     return render(request, 'monitor-mcy.html', context)
 
+@login_required
 def pantalla_view(request):
     pantallas = Pantalla.objects.all()
     return render(request, 'pantallas.html', {'pantallas': pantallas})
 
+@login_required
 def ver_pantalla(request, pantalla_id):
     pantalla = get_object_or_404(Pantalla, id=pantalla_id)
     producto = pantalla.id_producto
     return render(request, 'ver_pantalla.html', {'pantalla': pantalla, 'producto': producto})
 
+@login_required
 def modificar_pantalla(request, pantalla_id):
     pantalla = get_object_or_404(Pantalla, id=pantalla_id)
     if request.method == 'POST':
@@ -36,6 +56,7 @@ def modificar_pantalla(request, pantalla_id):
         form = PantallaForm(instance=pantalla)
     return render(request, 'modificar_pantalla.html', {'form': form, 'pantalla': pantalla})
 
+@login_required
 def eliminar_pantalla(request, pantalla_id):
     pantalla = get_object_or_404(Pantalla, id=pantalla_id)
     if request.method == 'POST':
@@ -45,6 +66,7 @@ def eliminar_pantalla(request, pantalla_id):
     else:
         return render(request, 'eliminar_pantalla.html', {'pantalla': pantalla})
 
+@login_required
 def agregar_pantalla(request):
     if request.method == 'POST':
         form = PantallaForm(request.POST)
@@ -56,10 +78,12 @@ def agregar_pantalla(request):
         form = PantallaForm()
     return render(request, 'agregar_pantalla.html', {'form': form})
 
+@login_required
 def administradores(request):
     administradores = Usuario.objects.filter(is_superuser=False)
     return render(request, 'administradores.html', {'administradores': administradores})
 
+@login_required
 def agregar_administrador(request):
     form = AdminForm()
 
@@ -75,6 +99,7 @@ def agregar_administrador(request):
 def BASE(request):
     return render(request, 'base.html')
 
+@login_required
 def productos(request):
     query = request.GET.get('q')
     productos_list = Producto.objects.all()
@@ -96,11 +121,13 @@ def productos(request):
 
     return render(request, 'productos.html', {'productos': productos, 'paginator': paginator})
 
+@login_required
 def sucursales(request):
     sucursales = Sucursal.objects.all()
 
     return render(request, 'sucursales.html', {'sucursales': sucursales})
 
+@login_required
 def agregar_sede(request):
     if request.method == 'POST':
         form = SedeForm(request.POST)

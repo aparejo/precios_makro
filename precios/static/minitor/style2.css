@@ -1,0 +1,178 @@
+.desktop-1,
+.desktop-1 * {
+  box-sizing: border-box;
+}
+.desktop-1 {
+  background: #ffffff;
+  height: 1024px;
+  position: relative;
+  overflow: hidden;
+}
+.azul-1 {
+  width: 1450px;
+  height: 1033px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+}
+.black-weekend-redvital-makro-1 {
+  width: 695px;
+  height: 94px;
+  position: absolute;
+  left: calc(50% - 348px);
+  top: 92px;
+  object-fit: cover;
+}
+.rectangle-1 {
+  background: rgba(255, 255, 255, 0.73);
+  border-radius: 47px;
+  width: 1240px;
+  height: 610px;
+  position: absolute;
+  left: calc(50% - 620px);
+  top: 231px;
+  box-shadow: 17px 9px 8px 0px rgba(0, 0, 0, 0.51);
+}
+.rectangle-2 {
+
+  
+  position: absolute;
+  left: 962px;
+  top: 269px;
+}
+input{
+  border: #000000 solid 2px !important;
+    width: 99px;
+}
+#barcode-input {
+  z-index: 9999;
+}
+.pngtree-barcode-vector-png-png-image-8527027-1 {
+  width: 149px;
+  height: 38px;
+  position: absolute;
+  left: 1119px;
+  top: 273px;
+  object-fit: cover;
+}
+.bebida-aloe-vera-king-fresa-500-ml-okf {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  position: absolute;
+  left: 193px;
+  top: 480px;
+  width: 1044px;
+  height: 146px;
+}
+.pantalla-de-precios {
+  color: #000000;
+  text-align: center;
+  font-family: "Jura-Regular", sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  position: absolute;
+  left: 150px;
+  top: 269px;
+  width: 1044px;
+  height: 91px;
+}
+._999-99 {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  position: absolute;
+  left: 260px;
+  top: 730px;
+  width: 289px;
+  height: 92px;
+}
+.precio-usd {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 250px;
+  top: 696px;
+  width: 309px;
+  height: 23px;
+}
+.codigo-c-00000090 {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 250px;
+  top: 386px;
+  width: 309px;
+  height: 23px;
+}
+.marca-okf {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 250px;
+  top: 416px;
+  width: 309px;
+  height: 23px;
+}
+.rectangle-3 {
+  background: rgba(217, 217, 217, 0);
+  border-radius: 22px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
+  width: 309px;
+  height: 138px;
+  position: absolute;
+  left: 250px;
+  top: 672px;
+}
+.bs-999-999-99 {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  position: absolute;
+  left: 836px;
+  top: 730px;
+  width: 289px;
+  height: 92px;
+}
+.precio-bcv-bs {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 826px;
+  top: 696px;
+  width: 309px;
+  height: 23px;
+}
+.rectangle-4 {
+  background: rgba(217, 217, 217, 0);
+  border-radius: 22px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
+  width: 309px;
+  height: 138px;
+  position: absolute;
+  left: 826px;
+  top: 672px;
+}

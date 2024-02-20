@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 from .models import Pantalla
 
+class BarcodeForm(forms.Form):
+    barcode = forms.CharField(max_length=20)
+
 class PantallaForm(forms.ModelForm):
     class Meta:
         model = Pantalla
