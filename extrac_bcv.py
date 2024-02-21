@@ -1,5 +1,6 @@
 import os
 import django
+import time
 import requests
 from decimal import Decimal
 from json.decoder import JSONDecodeError
@@ -36,4 +37,7 @@ def procesar_datos(data):
             bcv = BCV(id=1, fecha=fecha_str, precio=precio)
             bcv.save()
 
-obtener_datos_y_actualizar()
+while True:
+    obtener_datos_y_actualizar()
+    # Espera 45 minutos antes de realizar la próxima actualización
+    time.sleep(60 * 60)
