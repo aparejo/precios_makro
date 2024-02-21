@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ALLOWED_HOSTS = [
     '127.0.0.1',  # Ejemplo: permite solicitudes desde localhost
     'localhost',
     '173.212.230.123',  # Agrega tu dirección IP aquí
+    'precios.makrove.com'
     # Otros hosts permitidos...
 ]
 LOGIN_URL = 'login'
