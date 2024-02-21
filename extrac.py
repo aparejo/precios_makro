@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'precios_makro.settings')
 django.setup()
 from precios.models import Producto
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00050000"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00069000"
 
 def obtener_datos_y_actualizar():
     try:
