@@ -100,3 +100,10 @@ class Pantalla(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class BCV(models.Model):
+    fecha = models.CharField(max_length=100)
+    precio = models.DecimalField(max_digits=10, decimal_places=4)
+
+    def __str__(self):
+        return f"Fecha: {self.fecha}, Precio: {self.precio}"

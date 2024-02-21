@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="{% static 'minitor/style2.css' %}" />
 
     <style>
+      body {
+        background-image: url("{% static 'minitor/azul-10.png' %}");
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <style>
       a,
       button,
       input,
@@ -26,16 +35,20 @@
         text-decoration: none;
         appearance: none;
         background: none;
-
         -webkit-font-smoothing: antialiased;
       }
     </style>
-    <title>Document</title>
+    <title>Pantalla de Precios</title>
   </head>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      document.getElementById('barcode-input').focus();
+    });
+  </script>
   <body>
     {% block content %}
     <div class="desktop-1">
-      <img class="azul-1" src="{% static 'minitor/azul-10.png' %}" />
+      
       <img
         class="black-weekend-redvital-makro-1"
         src="{% static 'minitor/black-weekend-redvital-makro-10.png' %}"
@@ -44,42 +57,12 @@
       <div class="rectangle-2"><form method="post">
         <form method="post" id="barcode-form">
           {% csrf_token %}
-          <input type="text" name="barcode" id="barcode-input" readonly>
+          <input type="text" name="barcode" id="barcode-input" >
           <input type="button" value="Iniciar escaneo" onclick="startScanner()">
           <input type="submit" value="Buscar">
         </form>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-        <script>
-          function startScanner() {
-            Quagga.init({
-              inputStream: {
-                type: 'LiveStream',
-                constraints: {
-                  width: 640,
-                  height: 480,
-                  facingMode: 'environment'
-                },
-                target: document.querySelector('#barcode-input') // Selecciona el campo de texto como destino para mostrar el código de barras
-              },
-              decoder: {
-                readers: ['ean_reader']
-              }
-            }, function (err) {
-              if (err) {
-                console.error(err);
-                return;
-              }
-              Quagga.start();
-            });
-        
-            Quagga.onDetected(function (result) {
-              var barcode = result.codeResult.code;
-              document.getElementById('barcode-input').value = barcode;
-              Quagga.stop(); // Detiene el escaneo después de capturar un código de barras
-            });
-          }
-        </script></div><div class="pantalla-de-precios">PANTALLA DE PRECIOS</div>
+       </div><div class="pantalla-de-precios">PANTALLA DE PRECIOS</div>
       <img
         class="pngtree-barcode-vector-png-png-image-8527027-1"
         src="{% static 'minitor/pngtree-barcode-vector-png-png-image-8527027-10.png' %}"
@@ -89,12 +72,12 @@
       </div>
       
       
-      <div class="_999-99">{{ producto.pvp_base }}</div>
+      <div class="_999-99">$ {{ producto.pvp_base }}</div>
       <div class="precio-usd">Precio USD ($)</div>
       <div class="codigo-c-00000090">{{ producto.codigo }}</div>
       <div class="marca-okf">Marca: {{ producto.marca }}</div>
       <div class="rectangle-3"></div>
-      <div class="bs-999-999-99">Bs. </div>
+      <div class="bs-999-999-99">Bs. {{ pvp_base_bcv|floatformat:4 }} </div>
       <div class="precio-bcv-bs">Precio BCV (Bs)</div>
       <div class="rectangle-4"></div>
       {% endif %}

@@ -2,8 +2,15 @@
 .desktop-1 * {
   box-sizing: border-box;
 }
+body {
+  background-image: url("{% static 'minitor/azul-10.png' %}");
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+}
 .desktop-1 {
-  background: #ffffff;
+  
   height: 1024px;
   position: relative;
   overflow: hidden;
@@ -40,6 +47,7 @@
   position: absolute;
   left: 962px;
   top: 269px;
+  z-index: 9991;
 }
 input{
   border: #000000 solid 2px !important;
@@ -52,8 +60,8 @@ input{
   width: 149px;
   height: 38px;
   position: absolute;
-  left: 1119px;
-  top: 273px;
+  left: 998px;
+  top: 304px;
   object-fit: cover;
 }
 .bebida-aloe-vera-king-fresa-500-ml-okf {
