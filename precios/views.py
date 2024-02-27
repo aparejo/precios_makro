@@ -5,8 +5,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from .forms import SedeForm
 from .forms import AdminForm, BarcodeForm
-from precios.models import Usuario, Pantalla,BCV
-from .forms import PantallaForm, Pantalla 
+from precios.models import Usuario, Pantalla, BCV
+from .forms import PantallaForm, Pantalla
 
 from decimal import Decimal
 
@@ -17,20 +17,37 @@ def leer_codigo_de_barras(request):
         if form.is_valid():
             barcode = form.cleaned_data['barcode']
             try:
+                # Buscar el producto por el campo "barra"
                 producto = Producto.objects.get(barra=barcode)
                 precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
                 pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
                 context['producto'] = producto
                 context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
+                context['pvp_base'] = producto.pvp_base
             except Producto.DoesNotExist:
-                context['error'] = 'El código de barras no está asociado a ningún producto.'
+                try:
+                    # Buscar el producto por el campo "BARRA_ADIC_COD_1"
+                    producto = Producto.objects.get(Q(Barra2=barcode) | Q(barra=barcode))
+                    if producto.Barra2:
+                        precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
+                        Preciousd = Decimal(producto.Barra2_pvp)
+                        pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                    else:
+                        precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
+                        pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        Preciousd = producto.pvp_base
+                    context['producto'] = producto
+                    context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
+                    context['pvp_base'] = Preciousd
+                except Producto.DoesNotExist:
+                    context['error'] = 'El código de barras no está asociado a ningún producto.'
             except BCV.DoesNotExist:
                 context['error'] = 'No se encontró el precio del BCV.'
     else:
         form = BarcodeForm()
         context['form'] = form
-
-    return render(request, 'validador_precios_vina.html', context)
+    return render(request, 'precios_vina.html', context)
+    #return render(request, 'validador_precios_vina.html', context)
 
 def mostrar_pantalla_mcy(request, nombre_pantalla):
     pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()

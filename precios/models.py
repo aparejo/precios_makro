@@ -59,6 +59,8 @@ class Producto(models.Model):
     Guaparo_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
     Maracay=models.CharField(max_length=8, default='N/A')
     Maracay_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
+    Barra2=models.CharField(max_length=20, null=True, default='N/A')
+    Barra2_pvp = models.CharField(max_length=50, null=True, default=None)
     
     def __str__(self):
         return f"{self.descripcion} - {self.codigo} - {self.marca} - {self.pvp_base}"
@@ -102,7 +104,7 @@ class Pantalla(models.Model):
         return self.nombre
     
 class BCV(models.Model):
-    fecha = models.CharField(max_length=100)
+    fecha = models.DateField()
     precio = models.DecimalField(max_digits=10, decimal_places=4)
 
     def __str__(self):

@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'precios_makro.settings')
 django.setup()
 from precios.models import Producto
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00069000"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00076108"
 
 def obtener_datos_y_actualizar():
     try:
@@ -69,11 +69,15 @@ def procesar_datos(data):
             producto.Ocumare_Tuy_pvp=item_data["V20_PVP"]
             producto.Guaparo=item_data["V21_EXIS"]
             producto.Guaparo_pvp=item_data["V21_PVP"]
+            producto.Maracay=item_data["T30_EXIS"]
+            producto.Maracay_pvp=item_data["T30_PVP"]
+            producto.Barra2 = item_data["BARRA_ADIC_COD_1"]
+            producto.Barra2_pvp = item_data["BARRA_ADIC_PVP_1"]
             producto.save()
         except Producto.DoesNotExist:
             # Crea un nuevo objeto Producto
             tu_modelo = Producto(
-                codigo=codigo,
+               codigo=codigo,
                 descripcion=item_data["DESCRIPCION"],
                 barra=item_data["BARRA"],
                 referencia=item_data["REFERENCIA"],
@@ -130,13 +134,9 @@ def procesar_datos(data):
                 Guaparo_pvp=item_data["V21_PVP"],
                 Maracay=item_data["T30_EXIS"],
                 Maracay_pvp=item_data["T30_PVP"],
-                
-                
-                # Asigna los demás campos de acuerdo a tu modelo
+                Barra2=item_data["BARRA_ADIC_COD_1"],
+                Barra2_pvp=item_data["BARRA_ADIC_PVP_1"],
             )
             tu_modelo.save()
 
-while True:
-    obtener_datos_y_actualizar()
-    # Espera 45 minutos antes de realizar la próxima actualización
-    time.sleep(45 * 60)
+obtener_datos_y_actualizar()
