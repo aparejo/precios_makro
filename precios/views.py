@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto, Sucursal
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
@@ -20,10 +20,10 @@ def leer_codigo_de_barras(request):
                 # Buscar el producto por el campo "barra"
                 producto = Producto.objects.get(barra=barcode)
                 precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
-                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
                 context['producto'] = producto
                 context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
-                context['pvp_base'] = producto.pvp_base
+                context['pvp_base'] = producto.La_Vina_pvp
             except Producto.DoesNotExist:
                 try:
                     # Buscar el producto por el campo "BARRA_ADIC_COD_1"
@@ -34,8 +34,8 @@ def leer_codigo_de_barras(request):
                         pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
                     else:
                         precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
-                        pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Tomar el precio de pvp_base
-                        Preciousd = producto.pvp_base
+                        pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        Preciousd = producto.La_Vina_pvp
                     context['producto'] = producto
                     context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
                     context['pvp_base'] = Preciousd
@@ -46,8 +46,8 @@ def leer_codigo_de_barras(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'precios_vina.html', context)
-    #return render(request, 'validador_precios_vina.html', context)
+    #return render(request, 'precios_vina.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def mostrar_pantalla_mcy(request, nombre_pantalla):
     pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()
