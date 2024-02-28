@@ -3,20 +3,30 @@ import django
 import time
 import requests
 from json.decoder import JSONDecodeError
+from django.utils import timezone
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'precios_makro.settings')
 django.setup()
 from precios.models import Producto
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00076108"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000001&codigo_hasta=C00020000"
 
 def obtener_datos_y_actualizar():
     try:
         response = requests.get(url)
-        data = response.json()
-        procesar_datos(data)
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                procesar_datos(data)
+            else:
+                print("El JSON está vacío")
+        else:
+            print("Error en la solicitud HTTP:", response.status_code)
     except JSONDecodeError as e:
         print("Error al decodificar la respuesta JSON:", e)
+        print("Contenido de la respuesta:", response.content)
+    except requests.exceptions.RequestException as e:
+        print("Error de conexión:", e)
 
 def procesar_datos(data):
     # Realiza el procesamiento de los datos y actualiza la base de datos
@@ -73,6 +83,7 @@ def procesar_datos(data):
             producto.Maracay_pvp=item_data["T30_PVP"]
             producto.Barra2 = item_data["BARRA_ADIC_COD_1"]
             producto.Barra2_pvp = item_data["BARRA_ADIC_PVP_1"]
+            producto.fecha_actualizacion = timezone.now()  # Agrega esta línea
             producto.save()
         except Producto.DoesNotExist:
             # Crea un nuevo objeto Producto
@@ -136,6 +147,7 @@ def procesar_datos(data):
                 Maracay_pvp=item_data["T30_PVP"],
                 Barra2=item_data["BARRA_ADIC_COD_1"],
                 Barra2_pvp=item_data["BARRA_ADIC_PVP_1"],
+                fecha_actualizacion = timezone.now(),
             )
             tu_modelo.save()
 
