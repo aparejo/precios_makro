@@ -14,19 +14,10 @@ url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codi
 def obtener_datos_y_actualizar():
     try:
         response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            if data:
-                procesar_datos(data)
-            else:
-                print("El JSON está vacío")
-        else:
-            print("Error en la solicitud HTTP:", response.status_code)
+        data = response.json()
+        procesar_datos(data)
     except JSONDecodeError as e:
         print("Error al decodificar la respuesta JSON:", e)
-        print("Contenido de la respuesta:", response.content)
-    except requests.exceptions.RequestException as e:
-        print("Error de conexión:", e)
 
 def procesar_datos(data):
     # Realiza el procesamiento de los datos y actualiza la base de datos

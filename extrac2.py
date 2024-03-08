@@ -3,6 +3,7 @@ import django
 import time
 import requests
 from json.decoder import JSONDecodeError
+from django.utils import timezone
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'precios_makro.settings')
 django.setup()
@@ -73,6 +74,7 @@ def procesar_datos(data):
             producto.Maracay_pvp=item_data["T30_PVP"]
             producto.Barra2 = item_data["BARRA_ADIC_COD_1"]
             producto.Barra2_pvp = item_data["BARRA_ADIC_PVP_1"]
+            producto.fecha_actualizacion = timezone.now()  # Agrega esta línea
             producto.save()
         except Producto.DoesNotExist:
             # Crea un nuevo objeto Producto
@@ -136,6 +138,7 @@ def procesar_datos(data):
                 Maracay_pvp=item_data["T30_PVP"],
                 Barra2=item_data["BARRA_ADIC_COD_1"],
                 Barra2_pvp=item_data["BARRA_ADIC_PVP_1"],
+                fecha_actualizacion = timezone.now(),
             )
             tu_modelo.save()
 

@@ -3,14 +3,14 @@ import time
 import multiprocessing
 
 def run_server():
-    subprocess.Popen(['python', 'manage.py', 'runserver', '8001'])
+    subprocess.Popen(['python3', 'manage.py', 'runserver', '8001'])
 
 def run_extraction_scripts():
-    subprocess.Popen(['python', 'extrac.py']).wait()
-    subprocess.Popen(['python', 'extrac2.py']).wait()
-    subprocess.Popen(['python', 'extrac3.py']).wait()
-    subprocess.Popen(['python', 'extrac4.py']).wait()
-    subprocess.Popen(['python', 'extrac_bcv.py']).wait()
+    subprocess.Popen(['python3', 'extrac.py']).wait()
+    subprocess.Popen(['python3', 'extrac2.py']).wait()
+    subprocess.Popen(['python3', 'extrac3.py']).wait()
+    subprocess.Popen(['python3', 'extrac4.py']).wait()
+    subprocess.Popen(['python3', 'extrac_bcv.py']).wait()
 
 if __name__ == '__main__':
     # Crear los procesos para ejecutar las tareas en segundo plano
