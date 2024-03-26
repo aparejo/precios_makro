@@ -99,7 +99,8 @@ class Pantalla(models.Model):
     sucursal = models.ForeignKey('Sucursal', on_delete=models.CASCADE)
     descripcion = models.TextField()
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
-    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, to_field='codigo', db_column='id_producto')
+    codigo_barra = models.CharField(max_length=20, blank=True)
+    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, to_field='codigo', db_column='id_producto', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
@@ -110,3 +111,13 @@ class BCV(models.Model):
 
     def __str__(self):
         return f"Fecha: {self.fecha}, Precio: {self.precio}"
+    
+    from django.db import models
+from django.utils import timezone
+
+class TareaActualizacion(models.Model):
+    nombre_tarea = models.CharField(max_length=100)
+    fecha_actualizacion = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.nombre_tarea} - {self.fecha_actualizacion.strftime('%d/%m/%Y %H:%M:%S')}"

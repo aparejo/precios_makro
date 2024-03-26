@@ -20,7 +20,7 @@ from precios import views
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
-from precios.views import agregar_sede, sucursales, agregar_pantalla, pantalla_view, modificar_pantalla
+from precios.views import agregar_sede, sucursales, agregar_pantalla, pantalla_view, modificar_pantalla, ofertas_view
 from precios import views
 
 app_name = 'administradores'
@@ -40,9 +40,15 @@ urlpatterns = [
     path('administradores/', views.administradores, name='administradores'),
     path('agregar_administrador/', views.agregar_administrador, name='agregar_administrador'),
     path('pantallas/', pantalla_view, name='pantallas'),
+    path('ofertas/', ofertas_view, name='ofertas'),
     path('pantallas/<int:pantalla_id>/', views.ver_pantalla, name='ver_pantalla'),
     path('pantallas/<int:pantalla_id>/modificar/', views.modificar_pantalla, name='modificar_pantalla'),
     path('pantallas/<int:pantalla_id>/eliminar/', views.eliminar_pantalla, name='eliminar_pantalla'),
     path('maracay/<str:nombre_pantalla>/', views.mostrar_pantalla_mcy, name='mostrar_pantalla_mcy'),
     path('barras/', views.leer_codigo_de_barras, name='leer_codigo_de_barras'),
+    path('barras-t30/', views.leer_codigo_de_barrasT30, name='leer_codigo_de_barrasT30'),
+    path('barras-t08/', views.leer_codigo_de_barrasT08, name='leer_codigo_de_barrasT08'),
+    path('barras-t25/', views.leer_codigo_de_barrasT25, name='leer_codigo_de_barrasT25'),
+    path('barras-v21/', views.leer_codigo_de_barrasV21, name='leer_codigo_de_barrasV21'),
+    path('barras-t24/', views.leer_codigo_de_barrasT24, name='leer_codigo_de_barrasT24'),
 ]
