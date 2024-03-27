@@ -76,16 +76,15 @@ p {
   padding-left: 5%;
 }
 .marca{
-  margin-top: -24%;
+  margin-top: -23%;
 }
 
 .combo{
-  
-    color: #dc3545;
-    font-size: xx-large;
-    font-weight: 800;
-    font-family: sans-serif;
-    padding-top: 24%;
+  color: #dc3545;
+  font-size: xx-large;
+  font-weight: 800;
+  font-family: sans-serif;
+  padding-top: 24%;
 }
 
 ul, li {
