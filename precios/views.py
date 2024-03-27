@@ -50,8 +50,9 @@ def leer_codigo_de_barras(request):
 
                 if combos.exists():
                     combo = combos.first()
-                    context['combo'] = combo
-                    context['descripcion_combo'] = combo.descripcion
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
                 else:
                     print('No se encontraron combos para el producto.')
             except Producto.DoesNotExist:
