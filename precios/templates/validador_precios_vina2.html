@@ -83,9 +83,12 @@
 							<div class="col-md-12">
 								<h1 class="text-center title-product">{{ producto.descripcion }}</h1>
 								<h4 class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
-								<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
+								<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p> 
+								{% if combo %}
+								<div class="text-center combo"> {{ descripcion_combo }}</div>
+								{% endif %}
 							</div>
-
+							
 						</div>
 						
 						<div class="row" style="height: 20%; background:rgb(255, 255, 255);">

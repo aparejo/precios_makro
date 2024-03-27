@@ -30,7 +30,7 @@
 
 											<div class="card card-stretch">
 												<!--begin::Link-->
-												<a href="../../#" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+												<a href="../../crear_combo/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
 													<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
 														<span class="path1"></span>
 														<span class="path2"></span>
@@ -51,8 +51,29 @@
 										<!--begin::Content-->
 										<div class="flex-lg-row-fluid me-0 me-lg-20">
 											<!--begin::Form-->
-											
-											
+											<h1>Combos</h1>
+											<table>
+												<tr>
+													<th>Código</th>
+													<th>Descripción</th>
+													<th>Fecha Inicio</th>
+													<th>Fecha Fin</th>
+													<th>Sede</th>
+													
+												</tr>
+												{% for combo in combos %}
+    <tr>
+      <td>{{ combo.codigo_producto }}</td>
+      <td>{{ combo.descripcion }}</td>
+      <td>{{ combo.fecha_inicio}}</td>
+      <td>{{ combo.fecha_expiracion }}</td>
+	  <td>{{ combo.sede }}</td>
+    </tr>
+    {% endfor %}
+											</table>		
+									</div>
+											<br><br>
+									<div class="flex-lg-row-fluid me-0 me-lg-20">	
 											<h1>Ofertas</h1>
 											<table>
 												<tr>

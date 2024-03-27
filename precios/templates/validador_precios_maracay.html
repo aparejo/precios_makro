@@ -85,6 +85,9 @@
 								<h1 class="text-center title-product">{{ producto.descripcion }}</h1>
 								<h4 class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
 								<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
+								{% if combo %}
+								<p class="text-center marca" style="color:#1E40AF"> {{ descripcion_combo }}</p>
+								{% endif %}
 							</div>
 
 						</div>

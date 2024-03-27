@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
+from django.core.exceptions import ValidationError
 
 class Producto(models.Model):
     codigo = models.CharField(max_length=20, unique=True)
@@ -121,3 +122,30 @@ class TareaActualizacion(models.Model):
 
     def __str__(self):
         return f"{self.nombre_tarea} - {self.fecha_actualizacion.strftime('%d/%m/%Y %H:%M:%S')}"
+    
+class Combo(models.Model):
+    codigo_producto = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=255)
+    fecha_inicio = models.DateField()
+    fecha_expiracion = models.DateField()
+    sede = models.CharField(max_length=100, null=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    def clean(self):
+        # Validar campos obligatorios
+        if not self.codigo_producto:
+            raise ValidationError("El código de producto es obligatorio.")
+        if not self.descripcion:
+            raise ValidationError("La descripción es obligatoria.")
+        if not self.fecha_inicio:
+            raise ValidationError("La fecha de inicio es obligatoria.")
+        if not self.fecha_expiracion:
+            raise ValidationError("La fecha de expiración es obligatoria.")
+
+        # Validar fechas
+        if self.fecha_inicio > self.fecha_expiracion:
+            raise ValidationError("La fecha de inicio debe ser anterior a la fecha de expiración.")
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Realizar la validación antes de guardar
+        super().save(*args, **kwargs)
