@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+{% load static %}
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <!-- Agrega el enlace al archivo CSS de Owl Carousel -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-
-<!-- Agrega el contenedor del slider -->
-<div class="owl-carousel">
-  {% for oferta in ofertas %}
-    <div class="item">
-      <!-- Muestra la información de la oferta -->
-      <h3>{{ oferta.titulo }}</h3>
-      <p>{{ oferta.precio }}</p>
-      <p>{{ oferta.marca }}</p>
-      <img src="{{ oferta.imagen.url }}" alt="{{ oferta.titulo }}">
+<head>
+    <title>Ofertas</title>
+    <!-- Enlaces a archivos CSS de Owl Carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+</head>
+<body>
+    <div class="oferta">Ofertas</div>
+    
+    <div class="slider">
+        <ul class="owl-carousel">
+            {% for oferta in ofertas %}
+            <li>
+                <div class="oferta_titulo">{{ oferta.titulo }}</div>
+                <div class="oferta_sub">{{ oferta.subcategoria }}</div>
+                {% if oferta.imagen and oferta.imagen_existente %}
+                <img src="{{ oferta.imagen }}">
+                {% endif %}
+                <div class="precio">${{ oferta.precio }}</div>
+                <div class="marca2">{{ oferta.marca }}</div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-  {% endfor %}
-</div>
 
-<!-- Agrega el enlace al archivo JavaScript de Owl Carousel -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
-<!-- Inicializa el slider -->
-<script>
-  $(document).ready(function() {
-    $('.owl-carousel').owlCarousel({
-      items: 1,
-      loop: true,
-      autoplay: true,
-      autoplayTimeout: 5000
-    });
-  });
-</script>
-        
-        <script src="" async defer></script>
-    </body>
+    <!-- Enlaces a archivos JavaScript de Owl Carousel y jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Inicialización del slider -->
+    <script>
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                items: 1,
+                loop: true,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 5000 // Duración de 5 segundos
+                // Puedes ajustar otras opciones según tus necesidades
+            });
+        });
+    </script>
+</body>
 </html>

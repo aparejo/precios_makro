@@ -2,137 +2,157 @@
 {% load static %}
 <html lang="es">
 <head>
-	<title>Consulta de precios - redvital y makro</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{% static 'jf/images/icons/favicon.ico' %}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'jf/vendor/bootstrap/css/bootstrap.min.css' %}">
-
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'jf/css/util.css' %}">
-
-	<link rel="stylesheet" type="text/css" href="{% static 'jf/css/main.css' %}">
-<!--===============================================================================================-->
-<script>
-	window.addEventListener('DOMContentLoaded', (event) => {
-	  if (document.documentElement.requestFullscreen) {
-		document.documentElement.requestFullscreen();
-	  } else if (document.documentElement.mozRequestFullScreen) {
-		document.documentElement.mozRequestFullScreen();
-	  } else if (document.documentElement.webkitRequestFullscreen) {
-		document.documentElement.webkitRequestFullscreen();
-	  } else if (document.documentElement.msRequestFullscreen) {
-		document.documentElement.msRequestFullscreen();
-	  }
-	});
-  </script>
-
+    <title>Consulta de precios - redvital y makro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->    
+    <link rel="icon" type="image/png" href="{% static 'jf/images/icons/favicon.ico' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'jf/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'jf/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'jf/css/main.css' %}">
+	<!-- Enlace a archivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!--===============================================================================================-->
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 </head>
 <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    document.getElementById('barcode-input').focus();
-  });
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('barcode-input').focus();
+    });
 </script>
 <body>
-	{% block content %}
-	<div class="limiter">
-
-		<div class="container-price">
-
-			<div class="login100-form">
-				
-				<!-- Consulta del prodnucto  -->
-
-				<div class="wrap-price">
+	<body>
+		{% block content %}
+		<div class="limiter">
+	
+			<div class="container-price">
+	
+				<div class="login100-form">
 					
-					<div class="">
+					<!-- Consulta del prodnucto  -->
+	
+					<div class="wrap-price">
 						
-						<div class="row" style="height: 15%; background:rgb(255, 255, 255);">
-								<div class="col-md-6 text-left" ><img src="{% static 'jf/images/red-mak.svg' %}" alt="Redvital y Makro">
+						<div class="">
+							
+							<div class="row" style="height: 15%; background:rgb(255, 255, 255);">
+									<div class="col-md-6 text-left" ><img src="{% static 'jf/images/red-mak.svg' %}" alt="Redvital y Makro">
+									</div>
+									
+									<div class="col-md-6 text-right">
+										  <form method="post" id="barcode-form">
+											{% csrf_token %}
+											<input type="text" class="input-cod" name="barcode" id="barcode-input" placeholder="Código"  autofocus>
+											<button class="btn-buscar" style="font-size:12px; text-align: center;">
+												Buscar
+											</button>
+										  </form>
+									</div>{% if producto %}
+							</div>
+				
+							<div class="row" style="height: 10%; background:rgb(255, 255, 255);">
+								
+									<div class="col-md-6">
+										{% if producto.pvp_base > producto.La_Vina_pvp %}
+										<span class="badge-cat" style="background-color:#FF3D46E5; color: #fff;"  > <img src="{% static 'jf/images/descuento.svg' %}" alt="">En Oferta</span>
+										{% endif %}
+									</div>
+										
+									<div class="col-md-6 text-right" >
+												<span class="badge-cat" style="background-color:#b1f171;">{{ producto.desc_categoria }}</span>
+												<span class="badge-cat" style="background-color:#C9F7F5;">{{ producto.desc_sub_categoria }}</span>
+									</div>
+										
+							</div>
+	
+							<div class="row" style="height:60%;padding: 30px;">
+	
+								<div class="col-md-12">
+									<h1 class="text-center title-product">{{ producto.descripcion }}</h1>
+									<h4 class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
+									<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
+									{% if combo %}
+									<div class="text-center combo"> {{ descripcion_combo }}</div>
+									{% endif %}
+								</div>
+							</div>
+							
+							<div class="row" style="height: 20%; background:rgb(255, 255, 255);">
+								<div class="col-md-6">
+									<h4 class="title-price">Precio</h6>
+									<h6 class="price">Bs. {{ pvp_base_bcv|floatformat:2 }}</h6>
 								</div>
 								
 								<div class="col-md-6 text-right">
-                  					<form method="post" id="barcode-form">
-                    					{% csrf_token %}
-										<input type="text" class="input-cod" name="barcode" id="barcode-input" placeholder="Código"  autofocus>
-										<button class="btn-buscar" style="font-size:12px; text-align: center;">
-											Buscar
-										</button>
-                  					</form>
-								</div>{% if producto %}
-						</div>
-            
-						<div class="row" style="height: 10%; background:rgb(255, 255, 255);">
+									<h4 class="title-price">Precio USD</h6>
+									<h6 class="price">{{ pvp_base }}$</h6>
+								</div>{% endif %}{% if error %}
+								<p>{{ error }}</p>
+							{% endif %}
 							
-								<div class="col-md-6">
-									{% if producto.pvp_base > producto.La_Vina_pvp %}
-									<span class="badge-cat" style="background-color:#FF3D46E5; color: #fff;"  > <img src="{% static 'jf/images/descuento.svg' %}" alt="">En Oferta</span>
-									{% endif %}
-								</div>
-									
-								<div class="col-md-6 text-right" >
-											<span class="badge-cat" style="background-color:#b1f171;">{{ producto.desc_categoria }}</span>
-											<span class="badge-cat" style="background-color:#C9F7F5;">{{ producto.desc_sub_categoria }}</span>
-								</div>
-									
-						</div>
-
-						<div class="row" style="height:60%;padding: 30px;">
-
-							<div class="col-md-12">
-								<h1 class="text-center title-product">{{ producto.descripcion }}</h1>
-								<h4 class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
-								<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
-								{% if combo %}
-								<div class="text-center combo"> {{ descripcion_combo }}</div>
-								{% endif %}
+							{% endblock %}
 							</div>
-						</div>
-						
-						<div class="row" style="height: 20%; background:rgb(255, 255, 255);">
-							<div class="col-md-6">
-								<h4 class="title-price">Precio</h6>
-								<h6 class="price">Bs. {{ pvp_base_bcv|floatformat:2 }}</h6>
-							</div>
-							
-							<div class="col-md-6 text-right">
-								<h4 class="title-price">Precio USD</h6>
-								<h6 class="price">{{ pvp_base }}$</h6>
-							</div>{% endif %}{% if error %}
-							<p>{{ error }}</p>
-						{% endif %}
-						
-						{% endblock %}
-						</div>
-            
-					</div>
-
-				</div>
-
-			</div>	
-
-      
-				<!-- CBanner Derecha  -->
-
-			<div class="wrap-banner">
-					
-				<div
-					class="row justify-content-center align-items-center"
-				>
-				<img class="img-banner" src="{% static 'jf/images/banner/Arenita.gif' %}" alt=""> 
-					
-				</div>
 				
-
+						</div>
+	
+					</div>
+	
+				</div>	
+	
+		  
+					<!-- CBanner Derecha  -->
+	
+				<div class="wrap-banner">
+						
+					<div
+						class="row justify-content-center align-items-center"
+					>
+					<div class="slider">
+						<ul class="owl-carousel">
+							
+							{% for oferta in ofertas %}
+							<li>
+								<div class="ofertab">Ofertas</div>
+								<div class="oferta_titulob">{{ oferta.titulo }}</div>
+								<div class="oferta_subb">{{ oferta.subcategoria }}</div>
+								{% if oferta.imagen and oferta.imagen_existente %}
+								<img src="{{ oferta.imagen }}">
+								{% endif %}
+								<div class="preciob">${{ oferta.precio }}</div>
+								<div class="marcab">{{ oferta.marca }}</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+	
+						
+					</div>
 					
-
+	
+						
+	
+				</div>
+	
+				
 			</div>
-
-			
 		</div>
-	</div>
+
 	
 	
 
@@ -153,6 +173,22 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{% static 'jf/js/main.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Inicialización del slider -->
+    <script>
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                items: 1,
+                loop: true,
+                nav: true,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 5000 // Duración de 5 segundos
+                // Puedes ajustar otras opciones según tus necesidades
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -26,6 +26,8 @@ def obtener_detalles_producto(request, codigo_barras):
 
 def leer_codigo_de_barras(request):
     context = {}
+    ofertas = Oferta.objects.all()[:10] 
+    
     if request.method == 'POST':
         form = BarcodeForm(request.POST)
         if form.is_valid():
@@ -62,7 +64,7 @@ def leer_codigo_de_barras(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'validador_precios_vina2.html', context)
+    return render(request, 'validador_precios_vina2.html', {**context, 'ofertas': ofertas})
 
 def leer_codigo_de_barrasT30(request):
     context = {}
@@ -441,7 +443,10 @@ def crear_combo(request):
 
     return render(request, 'agregar_combo.html')
 
-def ofertas(request):
-    ofertas = Oferta.objects.all()
-    context = {'ofertas': ofertas}
-    return render(request, 'ofertas.html', context)
+def ofertasp(request):
+   # ofertas = Oferta.objects.all()
+   # context = {'ofertas': ofertas}
+    
+    ofertas = Oferta.objects.all()[:10] 
+    #return render(request, 'ofertas.html', context)
+    return render(request, 'ofertas.html', {'ofertas': ofertas})

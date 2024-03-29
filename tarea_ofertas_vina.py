@@ -28,3 +28,6 @@ def actualizar_ofertas():
         print("Oferta creada:", oferta.titulo)
 
     print("Actualización de ofertas completada.")
+
+if __name__ == "__main__":
+    actualizar_ofertas()

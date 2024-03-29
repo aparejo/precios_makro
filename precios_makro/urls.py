@@ -20,7 +20,7 @@ from precios import views
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
-from precios.views import agregar_sede, sucursales, agregar_pantalla, pantalla_view, modificar_pantalla, ofertas_view, ofertas
+from precios.views import agregar_sede, sucursales, agregar_pantalla, pantalla_view, modificar_pantalla, ofertas_view, ofertasp
 from precios import views
 
 app_name = 'administradores'
@@ -52,5 +52,5 @@ urlpatterns = [
     path('barras-t25/', views.leer_codigo_de_barrasT25, name='leer_codigo_de_barrasT25'),
     path('barras-v21/', views.leer_codigo_de_barrasV21, name='leer_codigo_de_barrasV21'),
     path('barras-t24/', views.leer_codigo_de_barrasT24, name='leer_codigo_de_barrasT24'),
-    path('ofertas/', ofertas, name='ofertas'),
+    path('ofertasp/', ofertasp, name='ofertasp'),
 ]

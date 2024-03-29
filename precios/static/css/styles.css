@@ -1,0 +1,93 @@
+.oferta_titulo{
+    font-size: 70px;
+    font-family: sans-serif;
+    font-weight: 800;
+    padding-top: 9%;
+    padding-bottom: 1%;
+}
+body { background-image: url(../images/oferta_azul2.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.precio{
+    
+        font-size: 102px;
+        background-color: darkblue;
+        color: #fff;
+        text-align: right;
+        padding-right: 13%;
+        font-family: sans-serif;
+        margin-left: 55%;
+    
+}
+.marca2{
+
+    text-align: center;
+    font-size: 35px;
+    font-family: sans-serif;
+    color: firebrick;
+    padding-top: 10%;
+    font-weight: 800;
+}
+.oferta{
+    font-size: 97px;
+    text-align: center;
+    font-family: sans-serif;
+    text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+}
+
+.wrap-banner{
+    background-image: url(../images/backgrounds-22.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.preciob{
+    
+    font-size: 36px;
+    background-color: darkblue;
+    color: #fff;
+    text-align: right;
+    padding-right: 3%;
+    font-family: sans-serif;
+    margin-left: 2%;
+
+}
+.marcab{
+
+text-align: center;
+font-size: 20px;
+font-family: sans-serif;
+color: firebrick;
+padding-top: 17%;
+font-weight: 800;
+}
+.ofertab{
+font-size: 46px;
+text-align: center;
+font-family: sans-serif;
+text-shadow: 1px 1px 2px red, 0 0 1em rgba(0, 0, 255, 0.083), 0 0 0.2em blue;
+color: rgb(255, 255, 255);
+}
+.oferta_titulob{
+    font-size: 21px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 800;
+    padding-top: 2%;
+    padding-bottom: 21%;
+    
+}
+.oferta_subb{
+    text-align: center;
+    padding-bottom: 10%;
+    color: blue;
+}
+
+.oferta_sub{
+    font-size: 32px;
+    color: blue;
+    padding-bottom: 10%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
