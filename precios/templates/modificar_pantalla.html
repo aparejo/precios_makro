@@ -41,11 +41,12 @@
 											
 											<h1>Modificar pantalla</h1>
 											
-                                            <form method="POST">
-                                            {% csrf_token %}
-                                            {{ form.as_p }}
-                                            <input type="submit" value="Guardar cambios">
-                                            </form>
+                                            <form method="post">
+												{% csrf_token %}
+												{{ form.as_p }}
+												
+												<button type="submit">Guardar</button>
+											  </form>
 											  
 
 
@@ -131,4 +132,31 @@
 							
 						
 					</div>
+					<script>
+						document.getElementById('codigo_barras').addEventListener('change', function() {
+						  var codigoBarras = this.value;
+						  obtenerDetallesProducto(codigoBarras);
+						});
+					  
+						function obtenerDetallesProducto(codigoBarras) {
+						  // Realiza una solicitud al servidor utilizando Ajax o Fetch
+						  // Enviar el código de barras al servidor y obtener los detalles del producto
+						  // Actualizar los campos del formulario con los detalles del producto
+						}
+					  </script>
+					  <script>
+						document.getElementById('codigo_barras').addEventListener('change', function() {
+						  var codigoBarras = this.value;
+						  obtenerDetallesProducto(codigoBarras);
+						});
+					  
+						function obtenerDetallesProducto(codigoBarras) {
+						  fetch('/obtener_detalles_producto/' + codigoBarras)
+							.then(response => response.json())
+							.then(data => {
+							  document.getElementById('id_producto').value = data.codigo_producto;
+							  document.getElementById('nombre_producto').innerText = data.nombre;
+							});
+						}
+					  </script>
 					{% endblock %}

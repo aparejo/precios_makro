@@ -11,7 +11,7 @@ django.setup()
 from precios.models import Producto
 from precios.models import TareaActualizacion
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00000068&codigo_hasta=C00018000"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00020001&codigo_hasta=C00040000"
 
 def obtener_datos_y_actualizar():
     try:
@@ -146,7 +146,7 @@ def procesar_datos(data):
                     fecha_actualizacion = timezone.now(),
                 )
                 tu_modelo.save()
-finalizar_tarea_actualizacion("Actualización de productos C1")
+finalizar_tarea_actualizacion("Actualización de productos C3")
 obtener_datos_y_actualizar()
 
 

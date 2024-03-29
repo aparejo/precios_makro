@@ -28,49 +28,21 @@
 											<!--begin::Text-->
 											<div class="fs-5 fw-semibold">Mostrando.</div>
 
-											
-											
-											<table>
-												
-												
-													<tr>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Automercado</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Farmacia</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														
-														
-														
-													</tr>
-												
-											</table>
+											<div class="card card-stretch">
+												<!--begin::Link-->
+												<a href="../../crear_combo/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+														<span class="path3"></span>
+														<span class="path4"></span>
+													</i>
+													<span class="fs-4 fw-bold">Agregar Combos</span>
+												</a>
+												<!--end::Link-->
+											</div>
 											<!--end::Text-->
 										</div>
-										
 										<!--end::Heading-->
 									</div>
 									<!--end::-->
@@ -79,34 +51,46 @@
 										<!--begin::Content-->
 										<div class="flex-lg-row-fluid me-0 me-lg-20">
 											<!--begin::Form-->
-											
-											
-											<h1>Pantallas</h1>
+											<h1>Combos</h1>
 											<table>
 												<tr>
-													<th>Id</th>
-													<th>Pantalla</th>
+													<th>Código</th>
 													<th>Descripción</th>
-													<th>Tipo</th>
-													<th>Código de Producto</th>
-													<th>Acciones</th>
+													<th>Fecha Inicio</th>
+													<th>Fecha Fin</th>
+													<th>Sede</th>
 													
 												</tr>
-												{% for pantalla in pantallas %}
-													<tr>
-														<td>{{ pantalla.id }}</td>
-														<td>{{ pantalla.nombre }}</td>
-														<td>{{ pantalla.descripcion }}</td>
-														<td>{{ pantalla.tipo }}</td>
-														<td>{{ pantalla.id_producto }}</td>
-														<td>
-															<a href="{% url 'ver_pantalla' pantalla.id %}">Ver</a>
-															<a href="{% url 'modificar_pantalla' pantalla.id %}">Modificar</a>
-															<a href="{% url 'eliminar_pantalla' pantalla.id %}">Eliminar</a>
-														  </td>
-														
-													</tr>
-												{% endfor %}
+												{% for combo in combos %}
+    <tr>
+      <td>{{ combo.codigo_producto }}</td>
+      <td>{{ combo.descripcion }}</td>
+      <td>{{ combo.fecha_inicio}}</td>
+      <td>{{ combo.fecha_expiracion }}</td>
+	  <td>{{ combo.sede }}</td>
+    </tr>
+    {% endfor %}
+											</table>		
+									</div>
+											<br><br>
+									<div class="flex-lg-row-fluid me-0 me-lg-20">	
+											<h1>Ofertas</h1>
+											<table>
+												<tr>
+													<th>Código</th>
+													<th>Descripción</th>
+													<th>Precio Base</th>
+													<th>Precio Oferta</th>
+													
+												</tr>
+												{% for producto in productos_oferta %}
+    <tr>
+      <td>{{ producto.codigo }}</td>
+      <td>{{ producto.descripcion }}</td>
+      <td>{{ producto.pvp_base }}</td>
+      <td>{{ producto.la_Urbina_pvp }}</td>
+    </tr>
+    {% endfor %}
 											</table>
 											<div class="pagination">
 												<span class="step-links">

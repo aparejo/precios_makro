@@ -28,49 +28,21 @@
 											<!--begin::Text-->
 											<div class="fs-5 fw-semibold">Mostrando.</div>
 
-											
-											
-											<table>
-												
-												
-													<tr>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Automercado</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Farmacia</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														
-														
-														
-													</tr>
-												
-											</table>
+											<div class="card card-stretch">
+												<!--begin::Link-->
+												<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+														<span class="path3"></span>
+														<span class="path4"></span>
+													</i>
+													<span class="fs-4 fw-bold">Agregar Pantallas</span>
+												</a>
+												<!--end::Link-->
+											</div>
 											<!--end::Text-->
 										</div>
-										
 										<!--end::Heading-->
 									</div>
 									<!--end::-->
@@ -85,20 +57,18 @@
 											<table>
 												<tr>
 													<th>Id</th>
-													<th>Pantalla</th>
-													<th>Descripción</th>
-													<th>Tipo</th>
-													<th>Código de Producto</th>
-													<th>Acciones</th>
+													<th>Sede</th>
+													<th>Pantallas</th>
+													<th>Slider</th>
+													
 													
 												</tr>
 												{% for pantalla in pantallas %}
 													<tr>
-														<td>{{ pantalla.id }}</td>
-														<td>{{ pantalla.nombre }}</td>
-														<td>{{ pantalla.descripcion }}</td>
-														<td>{{ pantalla.tipo }}</td>
-														<td>{{ pantalla.id_producto }}</td>
+														<td>{{ pantalla_maestra.id }}</td>
+														<td>{{ pantalla_maestra.sede }}</td>
+														<td>{{ pantalla_maestra.npantallas }}</td>
+														<td>{{ pantalla_maestra.nsliders }}</td>
 														<td>
 															<a href="{% url 'ver_pantalla' pantalla.id %}">Ver</a>
 															<a href="{% url 'modificar_pantalla' pantalla.id %}">Modificar</a>

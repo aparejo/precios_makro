@@ -5,10 +5,24 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from .forms import SedeForm
 from .forms import AdminForm, BarcodeForm
-from precios.models import Usuario, Pantalla, BCV
+from precios.models import Usuario, Pantalla, BCV, Combo
 from .forms import PantallaForm, Pantalla
+from precios.models import TareaActualizacion
+from django.utils import timezone
+from django.db.models import F
+from datetime import datetime
+from django.core.exceptions import ValidationError
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
+from django.http import JsonResponse
+
+def obtener_detalles_producto(request, codigo_barras):
+    producto = Producto.objects.get(barra=codigo_barras)
+    detalles = {
+        'nombre': producto.descripcion,
+        'codigo_producto': producto.codigo,
+    }
+    return JsonResponse(detalles)
 
 def leer_codigo_de_barras(request):
     context = {}
@@ -17,13 +31,126 @@ def leer_codigo_de_barras(request):
         if form.is_valid():
             barcode = form.cleaned_data['barcode']
             try:
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio
+
+                print(f'Producto encontrado: {producto}')
+
+                combos = Combo.objects.filter(codigo_producto__iexact=producto.barra)
+
+                print(f'Combos encontrados: {combos}')
+
+                pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv
+                context['pvp_base'] = producto.La_Vina_pvp
+
+                if combos.exists():
+                    combo = combos.first()
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                else:
+                    print('No se encontraron combos para el producto.')
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    return render(request, 'validador_precios_vina2.html', context)
+
+def leer_codigo_de_barrasT30(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
                 # Buscar el producto por el campo "barra"
                 producto = Producto.objects.get(barra=barcode)
+<<<<<<< HEAD
                 precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
                 pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
                 context['producto'] = producto
                 context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
                 context['pvp_base'] = producto.La_Vina_pvp
+=======
+                precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                combo = Combo.objects.filter(codigo_producto=producto.codigo).first()
+                
+                #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                # Ajustar el número de decimales a dos
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                #context['pvp_base'] = producto.La_Vina_pvp
+                context['pvp_base'] = producto.pvp_base
+                if combo:
+                    context['combo'] = combo
+                    context['descripcion_combo'] = combo.descripcion
+            except Producto.DoesNotExist:
+                try:
+                    # Buscar el producto por el campo "BARRA_ADIC_COD_1"
+                    producto = Producto.objects.get(Q(Barra2=barcode) | Q(barra=barcode))
+                    if producto.Barra2:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = Decimal(producto.Barra2_pvp)
+                        pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                    else:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = producto.pvp_base
+                        pvp_base = Preciousd * Decimal(precio_bcv)
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                        combo = Combo.objects.filter(codigo_producto=producto.codigo).first()
+                        #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        #Preciousd = producto.La_Vina_pvp
+                    context['producto'] = producto
+                    context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                    context['pvp_base'] = Preciousd
+                    if combo:
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                except Producto.DoesNotExist:
+                    context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    #return render(request, 'precios_vina.html', context)
+    return render(request, 'validador_precios_maracay.html', context)
+
+def leer_codigo_de_barrasT08(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                # Buscar el producto por el campo "barra"
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.get(id=2).precio  # Obtener el precio del BCV
+                
+                #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                # Ajustar el número de decimales a dos
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                #context['pvp_base'] = producto.La_Vina_pvp
+                context['pvp_base'] = producto.pvp_base
+>>>>>>> 08ace11f23bc5e00d50de245b556bc2600643dfa
             except Producto.DoesNotExist:
                 try:
                     # Buscar el producto por el campo "BARRA_ADIC_COD_1"
@@ -32,12 +159,23 @@ def leer_codigo_de_barras(request):
                         precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
                         Preciousd = Decimal(producto.Barra2_pvp)
                         pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
                     else:
                         precio_bcv = BCV.objects.get(id=1).precio  # Obtener el precio del BCV
+<<<<<<< HEAD
                         pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
                         Preciousd = producto.La_Vina_pvp
+=======
+                        Preciousd = producto.pvp_base
+                        pvp_base = Preciousd * Decimal(precio_bcv)
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                        #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        #Preciousd = producto.La_Vina_pvp
+>>>>>>> 08ace11f23bc5e00d50de245b556bc2600643dfa
                     context['producto'] = producto
-                    context['pvp_base_bcv'] = pvp_base  # Agregar el resultado al contexto
+                    context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
                     context['pvp_base'] = Preciousd
                 except Producto.DoesNotExist:
                     context['error'] = 'El código de barras no está asociado a ningún producto.'
@@ -47,7 +185,164 @@ def leer_codigo_de_barras(request):
         form = BarcodeForm()
         context['form'] = form
     #return render(request, 'precios_vina.html', context)
+<<<<<<< HEAD
     return render(request, 'validador_precios_vina2.html', context)
+=======
+    return render(request, 'validador_precios_turmero.html', context)
+
+def leer_codigo_de_barrasT25(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                # Buscar el producto por el campo "barra"
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                
+                #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                # Ajustar el número de decimales a dos
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                #context['pvp_base'] = producto.La_Vina_pvp
+                context['pvp_base'] = producto.pvp_base
+            except Producto.DoesNotExist:
+                try:
+                    # Buscar el producto por el campo "BARRA_ADIC_COD_1"
+                    producto = Producto.objects.get(Q(Barra2=barcode) | Q(barra=barcode))
+                    if producto.Barra2:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = Decimal(producto.Barra2_pvp)
+                        pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                    else:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = producto.pvp_base
+                        pvp_base = Preciousd * Decimal(precio_bcv)
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                        #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        #Preciousd = producto.La_Vina_pvp
+                    context['producto'] = producto
+                    context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                    context['pvp_base'] = Preciousd
+                except Producto.DoesNotExist:
+                    context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    #return render(request, 'precios_vina.html', context)
+    return render(request, 'validador_precios_losteques.html', context)
+
+def leer_codigo_de_barrasV21(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                # Buscar el producto por el campo "barra"
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                
+                #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                # Ajustar el número de decimales a dos
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                #context['pvp_base'] = producto.La_Vina_pvp
+                context['pvp_base'] = producto.pvp_base
+            except Producto.DoesNotExist:
+                try:
+                    # Buscar el producto por el campo "BARRA_ADIC_COD_1"
+                    producto = Producto.objects.get(Q(Barra2=barcode) | Q(barra=barcode))
+                    if producto.Barra2:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = Decimal(producto.Barra2_pvp)
+                        pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                    else:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = producto.pvp_base
+                        pvp_base = Preciousd * Decimal(precio_bcv)
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                        #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        #Preciousd = producto.La_Vina_pvp
+                    context['producto'] = producto
+                    context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                    context['pvp_base'] = Preciousd
+                except Producto.DoesNotExist:
+                    context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    #return render(request, 'precios_vina.html', context)
+    return render(request, 'validador_precios_guaparo.html', context)
+
+def leer_codigo_de_barrasT24(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                # Buscar el producto por el campo "barra"
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                
+                #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Realizar la multiplicación
+                pvp_base = producto.pvp_base * Decimal(precio_bcv)  # Realizar la multiplicación
+                # Ajustar el número de decimales a dos
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                #context['pvp_base'] = producto.La_Vina_pvp
+                context['pvp_base'] = producto.pvp_base
+            except Producto.DoesNotExist:
+                try:
+                    # Buscar el producto por el campo "BARRA_ADIC_COD_1"
+                    producto = Producto.objects.get(Q(Barra2=barcode) | Q(barra=barcode))
+                    if producto.Barra2:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = Decimal(producto.Barra2_pvp)
+                        pvp_base = Preciousd * Decimal(precio_bcv)  # Tomar el precio de Barra2_pvp
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                    else:
+                        precio_bcv = BCV.objects.latest('id').precio  # Obtener el precio del BCV
+                        Preciousd = producto.pvp_base
+                        pvp_base = Preciousd * Decimal(precio_bcv)
+                        pvp_base_bcv = round(pvp_base, 2)
+                        pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                        #pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)  # Tomar el precio de pvp_base
+                        #Preciousd = producto.La_Vina_pvp
+                    context['producto'] = producto
+                    context['pvp_base_bcv'] = pvp_base_bcv  # Agregar el resultado al contexto
+                    context['pvp_base'] = Preciousd
+                except Producto.DoesNotExist:
+                    context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    #return render(request, 'precios_vina.html', context)
+    return render(request, 'validador_precios_ptocabello.html', context)
+>>>>>>> 08ace11f23bc5e00d50de245b556bc2600643dfa
 
 def mostrar_pantalla_mcy(request, nombre_pantalla):
     pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()
@@ -81,6 +376,13 @@ def modificar_pantalla(request, pantalla_id):
     return render(request, 'modificar_pantalla.html', {'form': form, 'pantalla': pantalla})
 
 @login_required
+def ofertas_view(request):
+    productos_oferta = Producto.objects.filter(la_Urbina_pvp__lt=F('pvp_base'))
+    combos = Combo.objects.all()
+    # Resto del código de la vista...
+    return render(request, 'precios_oferta.html', {'productos_oferta': productos_oferta, 'combos': combos})
+
+
 def eliminar_pantalla(request, pantalla_id):
     pantalla = get_object_or_404(Pantalla, id=pantalla_id)
     if request.method == 'POST':
@@ -121,7 +423,25 @@ def agregar_administrador(request):
 
 @login_required
 def BASE(request):
-    return render(request, 'base.html')
+    bcv = BCV.objects.order_by('-fecha').first()  # Obtener el último registro
+    precio_bcv = bcv.precio if bcv else None  # Obtener el precio o None si no hay registros
+    fecha_bcv = bcv.fecha.strftime("%d/%m/%Y") if bcv else None  # Obtener la fecha formateada o None si no hay registros
+    cantidad_ofertas = Producto.objects.filter(la_Urbina_pvp__lt=F('pvp_base')).count()
+
+    # Obtener las últimas 5 tareas de actualización
+    ultimas_tareas = TareaActualizacion.objects.order_by('-fecha_actualizacion')[:5]
+
+    # Obtener la hora actual del servidor
+    hora_actual = timezone.now().strftime("%H:%M:%S")
+    
+    context = {
+        'precio_bcv': precio_bcv,
+        'fecha_bcv': fecha_bcv,
+        'ultimas_tareas': ultimas_tareas,
+        'Ofertas': cantidad_ofertas,
+        'hora_actual': hora_actual  # Agregar la hora actual al contexto
+    }
+    return render(request, 'base.html', context)
 
 @login_required
 def productos(request):
@@ -162,3 +482,40 @@ def agregar_sede(request):
         form = SedeForm()
 
     return render(request, 'agregar_sede.html', {'form': form})
+
+@login_required
+def crear_combo(request):
+    if request.method == 'POST':
+        codigo_producto = request.POST.get('codigo_producto')
+        descripcion = request.POST.get('descripcion')
+        fecha_inicio_str = request.POST.get('fecha_inicio')
+        fecha_expiracion_str = request.POST.get('fecha_expiracion')
+        valor = request.POST.get('valor')
+        sede = request.POST.get('sede')
+
+        try:
+            fecha_inicio = datetime.strptime(fecha_inicio_str, '%Y-%m-%d').date()
+            fecha_expiracion = datetime.strptime(fecha_expiracion_str, '%Y-%m-%d').date()
+
+            if fecha_inicio > fecha_expiracion:
+                raise ValidationError('La fecha de inicio debe ser anterior a la fecha de expiración.')
+
+            # Utiliza el método create() en lugar de instanciar y guardar por separado
+            combo = Combo.objects.create(
+                codigo_producto=codigo_producto,
+                descripcion=descripcion,
+                fecha_inicio=fecha_inicio,
+                fecha_expiracion=fecha_expiracion,
+                valor=valor,
+                sede=sede
+            )
+
+            # Redirige a la vista deseada después de guardar exitosamente
+            return redirect('../')
+
+        except (ValueError, ValidationError) as e:
+            # Maneja los errores de formato de fecha o validación
+            error_message = str(e)
+            return render(request, 'agregar_combo.html', {'error_message': error_message})
+
+    return render(request, 'agregar_combo.html')

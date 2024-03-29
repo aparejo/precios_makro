@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
+from django.core.exceptions import ValidationError
 
 class Producto(models.Model):
     codigo = models.CharField(max_length=20, unique=True)
@@ -61,6 +62,7 @@ class Producto(models.Model):
     Maracay_pvp=models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
     Barra2=models.CharField(max_length=20, null=True, default='N/A')
     Barra2_pvp = models.CharField(max_length=50, null=True, default=None)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return f"{self.descripcion} - {self.codigo} - {self.marca} - {self.pvp_base}"
@@ -98,7 +100,8 @@ class Pantalla(models.Model):
     sucursal = models.ForeignKey('Sucursal', on_delete=models.CASCADE)
     descripcion = models.TextField()
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
-    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, to_field='codigo', db_column='id_producto')
+    codigo_barra = models.CharField(max_length=20, blank=True)
+    id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, to_field='codigo', db_column='id_producto', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
@@ -109,3 +112,40 @@ class BCV(models.Model):
 
     def __str__(self):
         return f"Fecha: {self.fecha}, Precio: {self.precio}"
+    
+    from django.db import models
+from django.utils import timezone
+
+class TareaActualizacion(models.Model):
+    nombre_tarea = models.CharField(max_length=100)
+    fecha_actualizacion = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.nombre_tarea} - {self.fecha_actualizacion.strftime('%d/%m/%Y %H:%M:%S')}"
+    
+class Combo(models.Model):
+    codigo_producto = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=255)
+    fecha_inicio = models.DateField()
+    fecha_expiracion = models.DateField()
+    sede = models.CharField(max_length=100, null=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    def clean(self):
+        # Validar campos obligatorios
+        if not self.codigo_producto:
+            raise ValidationError("El código de producto es obligatorio.")
+        if not self.descripcion:
+            raise ValidationError("La descripción es obligatoria.")
+        if not self.fecha_inicio:
+            raise ValidationError("La fecha de inicio es obligatoria.")
+        if not self.fecha_expiracion:
+            raise ValidationError("La fecha de expiración es obligatoria.")
+
+        # Validar fechas
+        if self.fecha_inicio > self.fecha_expiracion:
+            raise ValidationError("La fecha de inicio debe ser anterior a la fecha de expiración.")
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Realizar la validación antes de guardar
+        super().save(*args, **kwargs)

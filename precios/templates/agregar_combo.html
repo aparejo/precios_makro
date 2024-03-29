@@ -23,54 +23,12 @@
 										<!--begin::Heading-->
 										<div class="position-absolute text-white mb-8 ms-10 bottom-0">
 											<!--begin::Title-->
-											<h3 class="text-white fs-2qx fw-bold mb-3 m">Pantallas</h3>
+											<h3 class="text-white fs-2qx fw-bold mb-3 m">Combos Ofertas</h3>
 											<!--end::Title-->
 											<!--begin::Text-->
-											<div class="fs-5 fw-semibold">Mostrando.</div>
-
-											
-											
-											<table>
-												
-												
-													<tr>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Automercado</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Farmacia</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														
-														
-														
-													</tr>
-												
-											</table>
+											<div class="fs-5 fw-semibold">Crear</div>
 											<!--end::Text-->
 										</div>
-										
 										<!--end::Heading-->
 									</div>
 									<!--end::-->
@@ -81,48 +39,36 @@
 											<!--begin::Form-->
 											
 											
-											<h1>Pantallas</h1>
-											<table>
-												<tr>
-													<th>Id</th>
-													<th>Pantalla</th>
-													<th>Descripción</th>
-													<th>Tipo</th>
-													<th>Código de Producto</th>
-													<th>Acciones</th>
-													
-												</tr>
-												{% for pantalla in pantallas %}
-													<tr>
-														<td>{{ pantalla.id }}</td>
-														<td>{{ pantalla.nombre }}</td>
-														<td>{{ pantalla.descripcion }}</td>
-														<td>{{ pantalla.tipo }}</td>
-														<td>{{ pantalla.id_producto }}</td>
-														<td>
-															<a href="{% url 'ver_pantalla' pantalla.id %}">Ver</a>
-															<a href="{% url 'modificar_pantalla' pantalla.id %}">Modificar</a>
-															<a href="{% url 'eliminar_pantalla' pantalla.id %}">Eliminar</a>
-														  </td>
-														
-													</tr>
-												{% endfor %}
-											</table>
-											<div class="pagination">
-												<span class="step-links">
-													{% if productos.has_previous %}
-														<a href="?page=1">&laquo; primera</a>
-														<a href="?page={{ productos.previous_page_number }}">anterior</a>
-													{% endif %}
-											
-													<span class="current-page">{{ productos.number }}</span>
-											
-													{% if productos.has_next %}
-														<a href="?page={{ productos.next_page_number }}">siguiente</a>
-														<a href="?page={{ productos.paginator.num_pages }}">última &raquo;</a>
-													{% endif %}
-												</span>
-											</div>
+											<h1>Agregar Combo</h1>
+											{% if error_message %}
+  <p>{{ error_message }}</p>
+{% endif %}
+<form action="/crear_combo/" method="post">
+	{% csrf_token %}
+	<label for="codigo_producto">Código del producto:</label>
+	<input type="text" id="codigo_producto" name="codigo_producto" required><br>
+  
+	<label for="descripcion">Descripción:</label>
+	<input type="text" id="descripcion" name="descripcion" required><br>
+  
+	<label for="fecha_inicio">Fecha de inicio:</label>
+	<input type="date" id="fecha_inicio" name="fecha_inicio" required><br>
+  
+	<label for="fecha_expiracion">Fecha de expiración:</label>
+	<input type="date" id="fecha_expiracion" name="fecha_expiracion" required><br>
+  
+	<label for="valor">Valor:</label>
+	<input type="text" id="valor" name="valor" pattern="\d+(\.\d{2})?" title="Debe ingresar un número decimal válido con dos decimales" required><br>
+  
+	<label for="sede">Sede:</label>
+	<select id="sede" name="sede" required>
+	  <option value="todos">Todos</option>
+	  <option value="V13">La Viña</option>
+	  <option value="T30">Maracay</option>
+	</select><br>
+  
+	<button type="submit">Crear Combo</button>
+  </form>
 											  
 
 
