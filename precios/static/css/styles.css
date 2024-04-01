@@ -2,7 +2,7 @@
     font-size: 70px;
     font-family: sans-serif;
     font-weight: 800;
-    padding-top: 9%;
+    padding-top: 5%;
     padding-bottom: 1%;
 }
 body { background-image: url(../images/oferta_azul2.png);
@@ -26,14 +26,15 @@ body { background-image: url(../images/oferta_azul2.png);
     font-size: 35px;
     font-family: sans-serif;
     color: firebrick;
-    padding-top: 10%;
+    padding-top: 2%;
     font-weight: 800;
 }
 .oferta{
     font-size: 97px;
     text-align: center;
     font-family: sans-serif;
-    text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+    text-shadow: 1px 1px 2px red, 0 0 1em #fbfbfb, 0 0 0.2em #ff5e00;
+    color:red;
 }
 
 .wrap-banner{

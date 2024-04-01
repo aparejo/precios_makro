@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <title>Producto</title>
+  <meta http-equiv="refresh" content="600"> <!-- 600 segundos = 10 minutos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+  <style>
+    /* Estilo para el fondo con imagen */
+    body {
+      background-image: url("{% static 'images/fondp.jpg' %}");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    
+    /* Estilo para el cabezal con imagen de fondo */
+    .cabezal {
+      background-image: url("{% static 'images/Cabezal.jpg' %}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 97px; /* Ajusta la altura según tus necesidades */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    /* Estilo para el logo centrado */
+    .logo {
+      max-width: 44%; /* Ajusta el tamaño del logo según tus necesidades */
+    }
+    
+    /* Estilo para el cuerpo del contenido */
+    .contenido {
+      text-align: center;
+      margin-top: 50px; /* Ajusta el margen superior según tus necesidades */
+    }
+    
+    /* Estilo para el precio */
+    .precio {
+      position: relative;
+      position: relative;
+    padding-top: 0%;
+    }
+    
+    .precio img {
+        position: relative;
+    top: 0;
+    right: -32%;
+    padding-top: -5%;
+    z-index: -3;
+    padding-left: 0%;
+    height: 109px;
+    }
+    
+    /* Estilo para el nombre de la marca */
+    .nombre-producto {
+        margin-top: 20px;
+        text-align: left;
+        line-height: 1.2;
+        font-size: 3rem;
+        font-weight: 500; /* Ajusta el margen superior según tus necesidades */
+    }
+    .categoria{
+        text-align: left;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+    .precion{
+        font-size: 4rem;
+        ofertaspfont-family: arial;
+        font-weight: bold;
+        padding-top: 0%;
+        text-align: left;
+        padding-left: 42%;
+        position: absolute
+    }
+    .nombre-marca2 {
+        margin-top: 20px;
+        text-align: center;
+        line-height: 1.2;
+        font-weight: 500;
+        padding-top: 20%;
+        padding-left: 0%;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider">
+    <ul class="owl-carousel">
+        {% for oferta in ofertas %}
+        <li>
+            
+            <div class="cabezal">
+                <img src="{% static 'images/super-precios.png' %}" alt="Logo" class="logo">
+            </div>
+  
+            <div class="container contenido">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="nombre-producto">{{ oferta.titulo }}</div>
+                        <div class="categoria">{{ oferta.subcategoria }}</div>
+                    </div>
+                    <div class="col-md-6">                      
+                         <img src="{% static 'ruta/imagen-producto.jpg' %}" >
+                    </div>
+                    <div class="col-md-6">
+                        <div class="precio">
+                            <div class="precion">${{ oferta.precio }}</div>
+                                <img src="{% static 'images/precio.png' %}" alt="Precio">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="nombre-marca2">{{ oferta.marca }}</h2>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Enlaces a archivos JavaScript de Owl Carousel y jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<!-- Inicialización del slider -->
+<script>
+    $(document).ready(function() {
+        $('.owl-carousel').owlCarousel({
+            items: 1,
+            loop: true,
+            nav: true,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 5000 // Duración de 5 segundos
+            // Puedes ajustar otras opciones según tus necesidades
+        });
+    });
+</script>
+</body>
+</html>

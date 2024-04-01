@@ -20,6 +20,7 @@ def actualizar_ofertas():
         oferta.titulo = producto.descripcion
         oferta.imagen = 'productos/imagenes_png/{}.png'.format(producto.codigo)
         oferta.precio = producto.la_Urbina_pvp
+        oferta.linea = producto.desc_linea
         oferta.categoria = producto.desc_categoria
         oferta.subcategoria = producto.desc_sub_categoria
         oferta.marca = producto.marca

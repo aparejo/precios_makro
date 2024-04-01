@@ -487,6 +487,14 @@ def ofertasp(request):
    # ofertas = Oferta.objects.all()
    # context = {'ofertas': ofertas}
     
-    ofertas = Oferta.objects.all()[:10] 
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:40] 
     #return render(request, 'ofertas.html', context)
-    return render(request, 'ofertas.html', {'ofertas': ofertas})
+    return render(request, 'ofertafar.html', {'ofertas': ofertas})
+
+def ofertast(request):
+   # ofertas = Oferta.objects.all()
+   # context = {'ofertas': ofertas}
+    
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:40] 
+    #return render(request, 'ofertas.html', context)
+    return render(request, 'ofertator.html', {'ofertas': ofertas})

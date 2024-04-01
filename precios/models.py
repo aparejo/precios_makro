@@ -154,6 +154,8 @@ class Oferta(models.Model):
     titulo = models.CharField(max_length=255)
     imagen = models.CharField(max_length=255)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
+    linea = models.CharField(max_length=255, null=True)
+    subcategoria = models.CharField(max_length=255)
     categoria = models.CharField(max_length=255)
     subcategoria = models.CharField(max_length=255)
     marca = models.CharField(max_length=255)
