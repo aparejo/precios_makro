@@ -92,3 +92,8 @@ color: rgb(255, 255, 255);
     font-weight: bold;
     font-family: sans-serif;
 }
+.combo{
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
