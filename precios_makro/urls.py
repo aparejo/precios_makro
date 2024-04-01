@@ -49,6 +49,7 @@ urlpatterns = [
     path('crear_combo/', views.crear_combo, name='crear_combo'),
     path('barras-t30/', views.leer_codigo_de_barrasT30, name='leer_codigo_de_barrasT30'),
     path('barras-t08/', views.leer_codigo_de_barrasT08, name='leer_codigo_de_barrasT08'),
+    path('barras-t03/', views.leer_codigo_de_barrasT30, name='leer_codigo_de_barrasT30'),
     path('barras-t25/', views.leer_codigo_de_barrasT25, name='leer_codigo_de_barrasT25'),
     path('barras-v21/', views.leer_codigo_de_barrasV21, name='leer_codigo_de_barrasV21'),
     path('barras-t24/', views.leer_codigo_de_barrasT24, name='leer_codigo_de_barrasT24'),

@@ -106,6 +106,46 @@ def leer_codigo_de_barrasT30(request):
         context['form'] = form
     return render(request, 'validador_precios_maracay.html', context)
 
+def leer_codigo_de_barrasT03(request):
+    context = {}
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio
+
+                print(f'Producto encontrado: {producto}')
+
+                combos = Combo.objects.filter(codigo_producto__iexact=producto.barra)
+
+                print(f'Combos encontrados: {combos}')
+
+                pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv
+                context['pvp_base'] = producto.La_Vina_pvp
+
+                if combos.exists():
+                    combo = combos.first()
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                else:
+                    print('No se encontraron combos para el producto.')
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    return render(request, 'validador_precios_sandiego.html', context)
+
 def leer_codigo_de_barrasT08(request):
     context = {}
     if request.method == 'POST':
