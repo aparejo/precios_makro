@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
   
   <style>
     /* Estilo para el fondo con imagen */
@@ -22,15 +25,17 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      height: 200px; /* Ajusta la altura según tus necesidades */
+      height: 156px; /* Ajusta la altura según tus necesidades */
       display: flex;
       justify-content: center;
       align-items: center;
+
+      
     }
     
     /* Estilo para el logo centrado */
     .logo {
-      max-width: 100%; /* Ajusta el tamaño del logo según tus necesidades */
+      max-width: 70%; /* Ajusta el tamaño del logo según tus necesidades */
     }
     
     /* Estilo para el cuerpo del contenido */
@@ -44,16 +49,17 @@
       position: relative;
       position: relative;
     padding-top: 28%;
+    right: 0px;
     }
     
     .precio img {
-        position: relative;
-    top: 0;
-    right: -32%;
-    padding-top: -5%;
-    z-index: -3;
-    padding-left: 0%;
-    height: 109px;
+      position: relative;
+      top: 0;
+      right: -108px;
+      padding-top: 5%;
+      z-index: -3;
+      padding-left: 29%;
+      height: 123px;
     }
     
     /* Estilo para el nombre de la marca */
@@ -71,21 +77,27 @@
     }
     .precion{
         font-size: 4rem;
-        font-family: fantasy;
-        font-weight: bold;
-        padding-top: 0%;
+        font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+        padding-top: 4%;
         text-align: left;
-        padding-left: 42%;
+        padding-left: 67%;
         position: absolute
     }
     .nombre-marca2 {
-        margin-top: 20px;
-        text-align: center;
-        line-height: 1.2;
-        font-weight: 500;
-        padding-top: 3%;
-        padding-left: 0%;
+      margin-top: 0px;
+      text-align: center;
+      line-height: 1.2;
+      font-weight: 500;
+      padding-top: 0%;
+      padding-left: 0%;
     }
+    .productoing {
+      max-height: 500px;
+      width: auto !important;
+      max-width: 650px;
+  }
   </style>
 </head>
 <body>
@@ -104,19 +116,21 @@
                         <div class="nombre-producto">{{ oferta.titulo }}</div>
                         <div class="categoria">{{ oferta.subcategoria }}</div>
                     </div>
-                    <div class="col-md-6">                      
-                         <img src="{% static 'ruta/imagen-producto.jpg' %}" >
+                    <div class="col-md-6">   
+                                        
+                      <img class="productoing"src="{% static 'productos/' %}{{ oferta.codigo|slugify }}.png">
+                      
                     </div>
                     <div class="col-md-6">
                         <div class="precio">
                             <div class="precion">${{ oferta.precio }}</div>
-                                <img src="{% static 'images/precio.png' %}" alt="Precio">
+                                <img src="{% static 'images/preciodolar.png' %}" alt="Precio">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="nombre-marca2">{{ oferta.marca }}</h2>
+                        <h2 class="nombre-marca2"></h2>
                     </div>
                 </div>
             </div>

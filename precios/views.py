@@ -66,6 +66,90 @@ def leer_codigo_de_barras(request):
         context['form'] = form
     return render(request, 'validador_precios_vina2.html', {**context, 'ofertas': ofertas})
 
+def leer_codigo_de_barrasT05(request):
+    context = {}
+    ofertas = Oferta.objects.all()[:10] 
+    
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio
+
+                print(f'Producto encontrado: {producto}')
+
+                combos = Combo.objects.filter(codigo_producto__iexact=producto.barra)
+
+                print(f'Combos encontrados: {combos}')
+
+                pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv
+                context['pvp_base'] = producto.La_Vina_pvp
+
+                if combos.exists():
+                    combo = combos.first()
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                else:
+                    print('No se encontraron combos para el producto.')
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    return render(request, 'validador_precios_vina2.html', {**context, 'ofertas': ofertas})
+
+def leer_codigo_de_barrasV02(request):
+    context = {}
+    ofertas = Oferta.objects.all()[:10] 
+    
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio
+
+                print(f'Producto encontrado: {producto}')
+
+                combos = Combo.objects.filter(codigo_producto__iexact=producto.barra)
+
+                print(f'Combos encontrados: {combos}')
+
+                pvp_base = producto.La_Vina_pvp * Decimal(precio_bcv)
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv
+                context['pvp_base'] = producto.La_Vina_pvp
+
+                if combos.exists():
+                    combo = combos.first()
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                else:
+                    print('No se encontraron combos para el producto.')
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+    return render(request, 'validador_precios_vina2.html', {**context, 'ofertas': ofertas})
+
 def leer_codigo_de_barrasT30(request):
     context = {}
     if request.method == 'POST':
@@ -104,7 +188,7 @@ def leer_codigo_de_barrasT30(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'validador_precios_maracay.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def leer_codigo_de_barrasT03(request):
     context = {}
@@ -144,7 +228,7 @@ def leer_codigo_de_barrasT03(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'validador_precios_sandiego.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def leer_codigo_de_barrasT08(request):
     context = {}
@@ -185,7 +269,7 @@ def leer_codigo_de_barrasT08(request):
         form = BarcodeForm()
         context['form'] = form
 
-    return render(request, 'validador_precios_turmero.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def leer_codigo_de_barrasT25(request):
     context = {}
@@ -225,7 +309,7 @@ def leer_codigo_de_barrasT25(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'validador_precios_losteques.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def leer_codigo_de_barrasV21(request):
    context = {}
@@ -265,7 +349,7 @@ def leer_codigo_de_barrasV21(request):
    else:
         form = BarcodeForm()
         context['form'] = form
-   return render(request, 'validador_precios_guaparo.html', context)
+   return render(request, 'validador_precios_vina2.html', context)
 
 def leer_codigo_de_barrasT24(request):
     context = {}
@@ -305,7 +389,7 @@ def leer_codigo_de_barrasT24(request):
     else:
         form = BarcodeForm()
         context['form'] = form
-    return render(request, 'validador_precios_ptocabello.html', context)
+    return render(request, 'validador_precios_vina2.html', context)
 
 def mostrar_pantalla_mcy(request, nombre_pantalla):
     pantalla = Pantalla.objects.filter(nombre=nombre_pantalla).first()
@@ -498,3 +582,55 @@ def ofertast(request):
     ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:40] 
     #return render(request, 'ofertas.html', context)
     return render(request, 'ofertator.html', {'ofertas': ofertas})
+
+def ofertasf(request):
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:40]
+
+    if not ofertas:
+        print("No hay ofertas disponibles")
+        return redirect('promo') 
+    
+    return render(request, 'ofertafar.html', {'ofertas': ofertas})
+
+def ofertasf0(request):
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:6]
+
+    if not ofertas:
+        print("No hay ofertas disponibles")
+        return redirect('promo') 
+    
+    return render(request, 'ofertafar.html', {'ofertas': ofertas})
+
+
+def ofertasf1(request):
+    start_position = 7  # Punto de partida
+
+    if 'start' in request.GET:
+        start_position = int(request.GET['start'])
+
+    end_position = start_position + 6  # Punto de finalización
+
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[start_position:end_position]
+    if not ofertas:
+        print("No hay ofertas disponibles")
+        return redirect('promo') 
+    return render(request, 'ofertafar.html', {'ofertas': ofertas, 'start_position': start_position})
+
+def ofertasf2(request):
+    start_position = 13  # Punto de partida
+
+    if 'start' in request.GET:
+        start_position = int(request.GET['start'])
+
+    end_position = start_position + 6  # Punto de finalización
+
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[start_position:end_position]
+    if not ofertas:
+        print("No hay ofertas disponibles")
+        return redirect('promo') 
+    return render(request, 'ofertafar.html', {'ofertas': ofertas, 'start_position': start_position})
+
+from django.shortcuts import render
+
+def promo(request):
+    return render(request, 'promo.html')

@@ -159,6 +159,8 @@ class Oferta(models.Model):
     categoria = models.CharField(max_length=255)
     subcategoria = models.CharField(max_length=255)
     marca = models.CharField(max_length=255)
+    codigo = models.CharField(max_length=255, null=True)
+    
 
     def __str__(self):
         return self.titulo

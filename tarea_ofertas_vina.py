@@ -24,6 +24,7 @@ def actualizar_ofertas():
         oferta.categoria = producto.desc_categoria
         oferta.subcategoria = producto.desc_sub_categoria
         oferta.marca = producto.marca
+        oferta.codigo = producto.codigo
         oferta.save()
 
         print("Oferta creada:", oferta.titulo)
