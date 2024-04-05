@@ -547,6 +547,10 @@ def agregar_sede(request):
 
     return render(request, 'agregar_sede.html', {'form': form})
 
+def detalle_producto(request, producto_id):
+    producto = Producto.objects.get(id=producto_id)
+    return render(request, 'producto.html', {'producto': producto})
+
 @login_required
 def crear_combo(request):
     if request.method == 'POST':

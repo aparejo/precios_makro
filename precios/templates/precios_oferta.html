@@ -146,7 +146,7 @@
 												</tr>
 												{% for producto in productos_oferta %}
     <tr>
-      <td>{{ producto.codigo }}</td>
+      <td><a href="../producto/{{ producto.id }}/">{{ producto.codigo }}</a></td>
       <td>{{ producto.descripcion }}</td>
       <td>{{ producto.pvp_base }}</td>
       <td>{{ producto.la_Urbina_pvp }}</td>

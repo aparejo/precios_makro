@@ -35,6 +35,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('', views.BASE, name='BASE'),
     path('productos/', views.productos, name='productos'),
+    path('producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto'),
     path('agregar-sede/', agregar_sede, name='agregar_sede'),
     path('agregar-pantalla/', agregar_pantalla, name='agregar_pantalla'),
     path('sucursales/', sucursales, name='sucursales'),
