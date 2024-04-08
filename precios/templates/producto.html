@@ -12,6 +12,9 @@
 									<div class="position-relative mb-17">
 										<!--begin::Overlay-->
 										<div class="overlay overlay-show">
+											<span class="badge">
+												<span class="ribbon">Oferta</span>
+											  </span>
 											<!--begin::Image-->
 											<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-250px" style="background-image:url('assets/media/stock/1600x800/img-1.jpg')"></div>
 											<!--end::Image-->
@@ -23,8 +26,9 @@
 										<!--begin::Heading-->
 										<div class="position-absolute text-white mb-8 ms-10 bottom-0">
 											<!--begin::Title-->
-											<h3 class="text-white fs-2qx fw-bold mb-3 m">ACIDO FOLICO 5MG X10TAB(BLISTER) DYNALAB</h3>
-											<!--end::Title-->
+											<h3 class="text-white fs-2qx fw-bold mb-3 m">{{ producto.descripcion }}</h3>
+											
+											
 											<!--begin::Text-->
 											<div class="fs-5 fw-semibold">Producto</div>
 											<!--end::Text-->
@@ -51,15 +55,93 @@
 											</script>
 												</div>
 												<div class="product-info">
-													<h2>Nombre del Producto</h2>
+													<h2>{{ producto.desc_linea }}</h2>
 													<p>{{ producto.descripcion }}</p>
-													<!-- Resto de los campos del formulario -->
+													<span style="color: red; font-weight: bold;">Tienda {{ user.sucursal_id }}</span> <b>Precio: </b> {{ producto.Maracay_pvp }}  - <b>Existencia: </b> {{ producto.Maracay }}</p>
 												</div>
 											</div>
 											  
+											<div class="row">
+												<div class="col-md-6">
+												  <p class="mb-1"><strong>Código:</strong> {{ producto.codigo }}</p>
+												  <p class="mb-1"><strong>Marca:</strong> {{ producto.marca }}</p>
+												  <p class="mb-1"><strong>Catálogo:</strong> {{ producto.catalogo }}</p>
+												  <p class="mb-1"><strong>Referencia:</strong> {{ producto.referencia }}</p>
+												</div>
+												<div class="col-md-6">
+												  <p class="mb-1"><strong>Subcategoría:</strong> {{ producto.desc_sub_categoria }}</p>
+												  <p class="mb-1"><strong>Categoría:</strong> {{ producto.desc_categoria }}</p>
+												  <p class="mb-1"><strong>Precio base:</strong> {{ producto.pvp_base }}</p>
+												</div>
+											  </div>
 
+											  <div class="row existencia">
+												<div class="col-md-4">
+												  <p><strong>La Urbina:</strong> Precio: {{ producto.la_Urbina_pvp }} - Existencia: {{ producto.La_Urbina }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>La Yaguara:</strong> Precio: {{ producto.la_Yaguara_pvp }} - Existencia: {{ producto.la_Yaguara }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>San Diego:</strong> Precio: {{ producto.San_Diego_pvp }} - Existencia: {{ producto.San_Diego }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>La Limpia:</strong> Precio: {{ producto.la_Limpia_pvp }} - Existencia: {{ producto.la_Limpia }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Obelisco:</strong> Precio: {{ producto.Barquisimeto_pvp }} - Existencia: {{ producto.Barquisimeto }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Turmero:</strong> Precio: {{ producto.Turmero_pvp }} - Existencia: {{ producto.Turmero }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>Cristal:</strong> Precio: {{ producto.Cristal_pvp }} - Existencia: {{ producto.Cristal }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Charallave:</strong> Precio: {{ producto.Charallave_pvp }} - Existencia: {{ producto.Charallave }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>La Guaira:</strong> Precio: {{ producto.La_Guaira }} - Existencia: {{ producto.La_Guaira }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>Lisandro<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Lisandro_pvp }} - Existencia: {{ producto.Lisandro }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Rio Lama<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Rio_Lama_pvp }} - Existencia: {{ producto.Rio_Lama }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Santa Teresa<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Santa_Teresa_pvp }} - Existencia: {{ producto.Santa_Teresa }}</p>
+												</div>
+												<div class="col-md-4">
+													<p><strong>Guarenas:</strong> Precio: {{ producto.Guarenas_pvp }} - Existencia: {{ producto.Guarenas }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Guacara<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Guacara_pvp }} - Existencia: {{ producto.Guacara }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>La Viña:</strong> Precio: {{ producto.La_Vina_pvp }} - Existencia: {{ producto.La_Vina }}</p>
+												  </div>
 
-											
+												  <div class="col-md-4">
+													<p><strong>Puerto Cabello:</strong> Precio: {{ producto.Puerto_Cabello_pvp }} - Existencia: {{ producto.Puerto_Cabello }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Los Teques:</strong> Precio: {{ producto.los_Teques_pvp }} - Existencia: {{ producto.los_Teques }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Ocumare del Tuy<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Ocumare_Tuy_pvp }} - Existencia: {{ producto.Ocumare_Tuy }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Guaparo<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Ocumare_Tuy_pvp }} - Existencia: {{ producto.Ocumare_Tuy }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Maracay:</strong> Precio: {{ producto.Maracay_pvp }} - Existencia: {{ producto.Maracay }}</p>
+												  </div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+											  </div>
 										</div>
 													<!--end::Content-->
 													<!--begin::Separator-->

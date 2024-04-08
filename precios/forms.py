@@ -3,6 +3,7 @@ from precios.models import Sucursal
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 from .models import Pantalla, Producto
+from django.utils.text import slugify
 
 class BarcodeForm(forms.Form):
     barcode = forms.CharField(max_length=20)
@@ -43,9 +44,18 @@ class PantallaForm(forms.ModelForm):
 
 
 class SedeForm(forms.ModelForm):
+    slug = forms.CharField(max_length=200, widget=forms.HiddenInput())
+
     class Meta:
         model = Sucursal
-        fields = ['nombre', 'codigo']
+        fields = ['nombre', 'codigo', 'slug']
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.slug = slugify(instance.nombre)
+        if commit:
+            instance.save()
+        return instance
 
 
 class AdminForm(UserCreationForm):

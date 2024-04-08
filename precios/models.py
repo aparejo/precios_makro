@@ -69,6 +69,7 @@ class Producto(models.Model):
 
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100, null=True)
     codigo = models.CharField(max_length=20)
 
     def __str__(self):
