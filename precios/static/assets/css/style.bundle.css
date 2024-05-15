@@ -61,6 +61,7 @@ th {
   max-height: 398px;
   max-width: 407px;
 }
+<<<<<<< HEAD
 input {
   margin: 0;
   font-family: inherit;
@@ -75,6 +76,10 @@ input {
   margin: 0 !important;
   background: #0f3ddd1c !important;
 }
+=======
+
+
+>>>>>>> 862a94dadb65376628e7c18dafabd3bc9b537173
   
 .ribbon {
   position: absolute;

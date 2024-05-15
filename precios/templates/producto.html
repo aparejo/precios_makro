@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base0.html' %}
 {% load static %}
 {% block content %}
@@ -296,4 +297,231 @@
 							
 						
 					</div>
+=======
+{% extends 'base0.html' %}
+{% load static %}
+{% block content %}
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Container-->
+						<div class="container-xxl" id="kt_content_container">
+							<!--begin::Careers - Apply-->
+							<div class="card">
+								<!--begin::Body-->
+								<div class="card-body p-lg-17">
+									<!--begin::Hero-->
+									<div class="position-relative mb-17">
+										<!--begin::Overlay-->
+										<div class="overlay overlay-show">
+											<span class="badge">
+												<span class="ribbon">Oferta</span>
+											  </span>
+											<!--begin::Image-->
+											<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-250px" style="background-image:url('assets/media/stock/1600x800/img-1.jpg')"></div>
+											<!--end::Image-->
+											<!--begin::layer-->
+											<div class="overlay-layer rounded bg-black" style="opacity: 0.4"></div>
+											<!--end::layer-->
+										</div>
+										<!--end::Overlay-->
+										<!--begin::Heading-->
+										<div class="position-absolute text-white mb-8 ms-10 bottom-0">
+											<!--begin::Title-->
+											<h3 class="text-white fs-2qx fw-bold mb-3 m">{{ producto.descripcion }}</h3>
+											
+											
+											<!--begin::Text-->
+											<div class="fs-5 fw-semibold">Producto</div>
+											<!--end::Text-->
+										</div>
+										<!--end::Heading-->
+									</div>
+									<!--end::-->
+									<!--begin::Layout-->
+									<div class="d-flex flex-column flex-lg-row mb-17">
+										<!--begin::Content-->
+										<div class="flex-lg-row-fluid me-0 me-lg-20">
+											<!--begin::Form-->
+											
+											<div class="product-image2">
+												<img src="{% static 'productos/' %}{{ producto.codigo|slugify }}.png" alt="Imagen del producto">
+											</div>
+											<div class="form-container">
+												<div class="product-image">
+													<canvas id="barcode"></canvas>
+			
+											<script>
+												// Genera el código de barras utilizando el valor del campo "barra"
+												JsBarcode("#barcode", "{{ producto.barra }}");
+											</script>
+												</div>
+												<div class="product-info">
+													<h2>{{ producto.desc_linea }}</h2>
+													<p>{{ producto.descripcion }}</p>
+													<span style="color: red; font-weight: bold;">Tienda {{ user.sucursal_id }}</span> <b>Precio: </b> {{ producto.Maracay_pvp }}  - <b>Existencia: </b> {{ producto.Maracay }}</p>
+												</div>
+											</div>
+											  
+											<div class="row">
+												<div class="col-md-6">
+												  <p class="mb-1"><strong>Código:</strong> {{ producto.codigo }}</p>
+												  <p class="mb-1"><strong>Marca:</strong> {{ producto.marca }}</p>
+												  <p class="mb-1"><strong>Catálogo:</strong> {{ producto.catalogo }}</p>
+												  <p class="mb-1"><strong>Referencia:</strong> {{ producto.referencia }}</p>
+												</div>
+												<div class="col-md-6">
+												  <p class="mb-1"><strong>Subcategoría:</strong> {{ producto.desc_sub_categoria }}</p>
+												  <p class="mb-1"><strong>Categoría:</strong> {{ producto.desc_categoria }}</p>
+												  <p class="mb-1"><strong>Precio base:</strong> {{ producto.pvp_base }}</p>
+												</div>
+											  </div>
+
+											  <div class="row existencia">
+												<div class="col-md-4">
+												  <p><strong>La Urbina:</strong> Precio: {{ producto.la_Urbina_pvp }} - Existencia: {{ producto.La_Urbina }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>La Yaguara:</strong> Precio: {{ producto.la_Yaguara_pvp }} - Existencia: {{ producto.la_Yaguara }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>San Diego:</strong> Precio: {{ producto.San_Diego_pvp }} - Existencia: {{ producto.San_Diego }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>La Limpia:</strong> Precio: {{ producto.la_Limpia_pvp }} - Existencia: {{ producto.la_Limpia }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Obelisco:</strong> Precio: {{ producto.Barquisimeto_pvp }} - Existencia: {{ producto.Barquisimeto }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Turmero:</strong> Precio: {{ producto.Turmero_pvp }} - Existencia: {{ producto.Turmero }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>Cristal:</strong> Precio: {{ producto.Cristal_pvp }} - Existencia: {{ producto.Cristal }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Charallave:</strong> Precio: {{ producto.Charallave_pvp }} - Existencia: {{ producto.Charallave }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>La Guaira:</strong> Precio: {{ producto.La_Guaira }} - Existencia: {{ producto.La_Guaira }}</p>
+												</div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+												<div class="col-md-4">
+												  <p><strong>Lisandro<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Lisandro_pvp }} - Existencia: {{ producto.Lisandro }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Rio Lama<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Rio_Lama_pvp }} - Existencia: {{ producto.Rio_Lama }}</p>
+												</div>
+												<div class="col-md-4">
+												  <p><strong>Santa Teresa<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Santa_Teresa_pvp }} - Existencia: {{ producto.Santa_Teresa }}</p>
+												</div>
+												<div class="col-md-4">
+													<p><strong>Guarenas:</strong> Precio: {{ producto.Guarenas_pvp }} - Existencia: {{ producto.Guarenas }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Guacara<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Guacara_pvp }} - Existencia: {{ producto.Guacara }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>La Viña:</strong> Precio: {{ producto.La_Vina_pvp }} - Existencia: {{ producto.La_Vina }}</p>
+												  </div>
+
+												  <div class="col-md-4">
+													<p><strong>Puerto Cabello:</strong> Precio: {{ producto.Puerto_Cabello_pvp }} - Existencia: {{ producto.Puerto_Cabello }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Los Teques:</strong> Precio: {{ producto.los_Teques_pvp }} - Existencia: {{ producto.los_Teques }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Ocumare del Tuy<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Ocumare_Tuy_pvp }} - Existencia: {{ producto.Ocumare_Tuy }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Guaparo<sub class="subscript">24</sub>:</strong> Precio: {{ producto.Ocumare_Tuy_pvp }} - Existencia: {{ producto.Ocumare_Tuy }}</p>
+												  </div>
+												  <div class="col-md-4">
+													<p><strong>Maracay:</strong> Precio: {{ producto.Maracay_pvp }} - Existencia: {{ producto.Maracay }}</p>
+												  </div>
+												<!-- Repite las siguientes líneas para las demás tiendas -->
+											  </div>
+										</div>
+													<!--end::Content-->
+													<!--begin::Separator-->
+													<div class="separator separator-dashed"></div>
+													<!--end::Separator-->
+												</div>
+												<!--end::Section-->
+												<!--begin::Section-->
+												<div class="m-0">
+													<!--begin::Heading-->
+													
+													<!--end::Separator-->
+												</div>
+												<!--end::Section-->
+												<!--begin::Section-->
+												<div class="m-0">
+													<!--begin::Heading-->
+												</div>
+												<!--end::Section-->
+												<!--end::Accordion-->
+											</div>
+											<!--end::Job-->
+										</div>
+										<!--end::Content-->
+										<!--begin::Sidebar-->
+										
+									</div>
+									
+									<!--end::Section-->
+									<!--begin::Card-->
+									<div class="card mb-4 bg-light text-center">
+										<!--begin::Body-->
+										<div class="card-body py-12">
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/facebook-4.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/instagram-2-1.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/github.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/behance.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/pinterest-p.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/twitter.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+											<!--begin::Icon-->
+											<a href="#" class="mx-4">
+												<img src="assets/media/svg/brand-logos/dribbble-icon-1.svg" class="h-30px my-2" alt="">
+											</a>
+											<!--end::Icon-->
+										</div>
+										<!--end::Body-->
+									</div>
+									<!--end::Card-->
+								</div>
+								<!--end::Body-->
+							</div>
+							<!--end::Careers - Apply-->
+						</div>
+						
+							
+						
+					</div>
+>>>>>>> 862a94dadb65376628e7c18dafabd3bc9b537173
 					{% endblock %}
