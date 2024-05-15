@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_filters %}
 <!--
 Author: Keenthemes
 Product Name: Metronic
@@ -37,6 +38,7 @@ License: For each use you must have a valid license purchased only from above li
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
 		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
 		<link href="{% static 'assets/css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+		
 		<!--end::Global Stylesheets Bundle-->
 	</head>
 	<!--end::Head-->
@@ -55,7 +57,7 @@ License: For each use you must have a valid license purchased only from above li
 					<!--begin::Logo-->
 					<div class="aside-logo flex-column-auto pt-10 pt-lg-20" id="kt_aside_logo">
 						<a href="../../">
-							<img alt="Logo" src="{% static 'assets/media/logos/makro-logo-vector.png' %}" class="h-30px" />
+							<img alt="Logo" src="{% static 'assets/media/logos/logo.png' %}" class="h-30px" />
 						</a>
 					</div>
 					<!--end::Logo-->
@@ -167,7 +169,7 @@ License: For each use you must have a valid license purchased only from above li
 							<!--begin::Mobile logo-->
 							<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 								<a href="../../">
-									<img alt="Logo" src="{% static 'assets/media/logos/makro-logo-vector.png' class='h-35px' %}" />
+									<img alt="Logo" src="{% static 'assets/media/logos/logo.png' class='h-35px' %}" />
 								</a>
 							</div>
 							<!--end::Mobile logo-->
@@ -191,8 +193,8 @@ License: For each use you must have a valid license purchased only from above li
 							<div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-20 py-3 py-lg-0 me-3">
 								<!--begin::Heading-->
 								<h1 class="d-flex flex-column text-dark fw-bold my-1">
-									<span class="text-white fs-1">Administrador makro</span>
-									<small class="text-gray-600 fs-6 fw-normal pt-2">Administrador de Pantallas de Precio</small>
+									<span class="text-white fs-1">Gestor de Publicación de Precios</span>
+									<small class="text-gray-600 fs-6 fw-normal pt-2">GPP</small>
 								</h1>
 								<!--end::Heading-->
 							</div>
@@ -377,7 +379,7 @@ License: For each use you must have a valid license purchased only from above li
 													<!--begin::Username-->
 													<div class="d-flex flex-column">
 														<div class="fw-bold d-flex align-items-center fs-5">{{ user.username }}
-														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">{{ user.sucursal.nombre }}</span></div>
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">{{ request.user.sucursal.nombre }}</span></div>
 														<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{ user.first_name }} {{ user.last_name }}</a>
 													</div>
 													<!--end::Username-->
@@ -527,6 +529,7 @@ License: For each use you must have a valid license purchased only from above li
 										<!--begin::Col-->
 										<!--end::Col-->
 										<!--begin::Col-->
+										{% if request.user.is_authenticated and request.user.sucursal.id == 1 %}
 										<div class="col-6">
 											<!--begin::Card-->
 											<div class="card card-stretch">
@@ -542,7 +545,8 @@ License: For each use you must have a valid license purchased only from above li
 											</div>
 											<!--end::Card-->
 										</div>
-
+										{% endif %}
+										{% if request.user.is_authenticated and request.user.roles_id == 1 %}
 										<div class="col-6">
 											<!--begin::Card-->
 											<div class="card card-stretch">
@@ -560,6 +564,8 @@ License: For each use you must have a valid license purchased only from above li
 											</div>
 											<!--end::Card-->
 										</div>
+										{% endif %}
+										{% if request.user.is_authenticated and request.user.roles_id == 1 %}
 										<div class="col-6">
 											<!--begin::Card-->
 											<div class="card card-stretch">
@@ -575,6 +581,40 @@ License: For each use you must have a valid license purchased only from above li
 											</div>
 											<!--end::Card-->
 										</div>
+										{% endif %}
+										<div class="col-6">
+											<!--begin::Card-->
+											<div class="card card-stretch">
+												<!--begin::Link-->
+												<a href="../../ofertas" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-percentage fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+													</i>
+													<span class="fs-4 fw-bold">Ofertas</span>
+												</a>
+												<!--end::Link-->
+											</div>
+										</div>
+											{% if request.user.is_authenticated and request.user.roles_id == 1 %}
+										<div class="col-6">
+											<!--begin::Card-->
+											<div class="card card-stretch">
+												<!--begin::Link-->
+												<a href="../../verificadores" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-finance-calculator fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+													</i>
+													<span class="fs-4 fw-bold">Verificadores de Precio</span>
+												</a>
+												<!--end::Link-->
+											</div>
+											<!--end::Card-->
+										</div>
+										{% endif %}
+											<!--end::Card-->
+										
 										<!--end::Col-->
 										<!--begin::Col-->
 										
@@ -602,7 +642,12 @@ License: For each use you must have a valid license purchased only from above li
 											<!--end::Title-->
 											<!--begin::Action-->
 											<div class="m-0">
-												<a href='#' class="btn btn-success fw-semibold px-6 py-3" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Registrar Pantalla</a>
+												<div id="monitor-status"></div>
+												<h3 style = "color:#fff;text-align: center;width: 14%;">La Viña</h3>
+											</div>
+											<div class="m-0">
+												<div id="monitor-status2"></div>
+												<h3 style = "color:#fff;text-align: center;width: 14%;">San Diego</h3>
 											</div>
 											<!--begin::Action-->
 										</div>
@@ -2603,6 +2648,61 @@ License: For each use you must have a valid license purchased only from above li
 		
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
+		<script>
+			// Función para actualizar el estado del monitor
+			function updateMonitorStatus() {
+			  var monitorStatusElement = document.getElementById('monitor-status');
+		  
+			  // Realizar una petición AJAX a tu URL para verificar la disponibilidad
+			  var xhr = new XMLHttpRequest();
+			  xhr.open('GET', '/ofertasf/', true);
+			  xhr.onload = function() {
+				if (xhr.status === 200) {
+				  // Si la URL está disponible, mostrar el monitor en verde
+				  monitorStatusElement.innerHTML = '<img src="{% static "images/tv-verde.png" %}">';
+				} else {
+				  // Si la URL no está disponible, mostrar el monitor en gris
+				  monitorStatusElement.innerHTML = '<img src="{% static "images/tv-gris.png" %}">';
+				}
+			  };
+			  xhr.send();
+			}
+		  
+			// Actualizar el estado del monitor cada 40 minutos
+			setInterval(updateMonitorStatus, 40 * 60 * 1000);
+		  
+			// Actualizar el estado del monitor al cargar la página
+			updateMonitorStatus();
+		  </script>
+
+		  <script>
+			// Función para actualizar el estado del monitor
+			function updateMonitorStatus() {
+			  var monitorStatusElement = document.getElementById('monitor-status2');
+		  
+			  // Realizar una petición AJAX a tu URL para verificar la disponibilidad
+			  var xhr = new XMLHttpRequest();
+			  xhr.open('GET', '/ofertasf7/', true);
+			  xhr.onload = function() {
+				if (xhr.status === 200) {
+				  // Si la URL está disponible, mostrar el monitor en verde
+				  monitorStatusElement.innerHTML = '<img src="{% static "images/tv-verde.png" %}">';
+				} else {
+				  // Si la URL no está disponible, mostrar el monitor en gris
+				  monitorStatusElement.innerHTML = '<img src="{% static "images/tv-gris.png" %}">';
+				}
+			  };
+			  xhr.send();
+			}
+		  
+			// Actualizar el estado del monitor cada 40 minutos
+			setInterval(updateMonitorStatus, 40 * 60 * 1000);
+		  
+			// Actualizar el estado del monitor al cargar la página
+			updateMonitorStatus();
+		  </script>
+
+		  
 	</body>
 	<!--end::Body-->
 </html>

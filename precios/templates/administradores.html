@@ -27,7 +27,7 @@
 											
 											<div class="fs-5 fw-semibold">redvital y makro</div>
 
-											<div class="card card-stretch">
+											<div class="card2 card card-stretch">
 												<!--begin::Link-->
 												<a href="../../agregar_administrador/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
 													<i class="ki-duotone ki-security-user fs-2tx mb-5 ms-n1">
@@ -36,7 +36,18 @@
 														<span class="path3"></span>
 														<span class="path4"></span>
 													</i>
-													<span class="fs-4 fw-bold">Agregar Administrador de Pantallas</span>
+													<span class="fs-4 fw-bold">Agregar Administradores</span>
+												</a>
+												<!--end::Link-->
+											</div>
+											<div class="card2 card card-stretch">
+												<!--begin::Link-->
+												<a href="../../crear-rol/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-design-frame fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+													</i>
+													<span class="fs-4 fw-bold">Agregar Roles</span>
 												</a>
 												<!--end::Link-->
 											</div>
@@ -57,12 +68,14 @@
 												<tr>
 													<th>Nombre</th>
 													<th>Sucursal</th>
+													<th>Rol</th>
 													
 												</tr>
 												{% for administrador in administradores %}
 													<tr>
 														<td>{{ administrador.username }}</td>
-            											<td>{{ administrador.sucursal_id.nombre }}</td>
+            											<td>{{ administrador.sucursal.nombre }}</td>
+														<td>{{ administrador.roles.nombre }}</td>
 														
 													</tr>
 												{% endfor %}

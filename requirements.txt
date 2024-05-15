@@ -1,0 +1,11 @@
+asgiref
+certifi
+charset-normalizer
+Django
+djangorestframework
+idna
+mysql-connector-python
+pillow
+pip
+requests
+openai

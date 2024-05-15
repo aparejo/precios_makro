@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>Producto</title>
-  <meta http-equiv="refresh" content="600"> <!-- 600 segundos = 10 minutos -->
+  <meta http-equiv="refresh" content="60000"> <!-- 600 segundos = 10 minutos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -118,7 +118,9 @@
                     </div>
                     <div class="col-md-6">   
                                         
-                      <img class="productoing"src="{% static 'productos/' %}{{ oferta.codigo|slugify }}.png">
+                     
+                      <img class="productoing" src="{% static 'productos/' %}{{ oferta.codigo|slugify }}.png" alt="Imagen del producto" onerror="this.src='{% static 'images/NO-IMAGEN.webp' %}'; this.classList.add('noimagen');">
+
                       
                     </div>
                     <div class="col-md-6">

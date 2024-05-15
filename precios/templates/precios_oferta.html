@@ -27,7 +27,7 @@
 											<!--end::Title-->
 											<!--begin::Text-->
 											<div class="fs-5 fw-semibold">Mostrando.</div>
-
+											{% if request.user.is_authenticated and request.user.roles_id == 1 %}
 											<div class="card2 card card-stretch">
 												<!--begin::Link-->
 												<a href="../../crear_combo/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
@@ -41,6 +41,7 @@
 												</a>
 												<!--end::Link-->
 											</div>
+											{% endif %}
 											<div class="card2 card3 card card-stretch">
 												<!--begin::Link-->
 												<a href="../../crear_combo/" class="btn77 btn-flex btn-text-white-800 btn-icon-white-400 btn-active-color-secundary bg-body2 flex-column justfiy-content-start align-items-start text-start w-100 p-10">
@@ -115,22 +116,22 @@
 											<h1>Combos</h1>
 											<table>
 												<tr>
-													<th>Código</th>
+													
 													<th>Descripción</th>
-													<th>Fecha Inicio</th>
+													<th>Combos</th>
 													<th>Fecha Fin</th>
 													<th>Sede</th>
 													
 												</tr>
 												{% for combo in combos %}
     <tr>
-      <td>{{ combo.codigo_producto }}</td>
-      <td>{{ combo.descripcion }}</td>
-      <td>{{ combo.fecha_inicio}}</td>
-      <td>{{ combo.fecha_expiracion }}</td>
-	  <td>{{ combo.sede }}</td>
+        
+        <td><a href="{% url 'detalle_producto' combo.codigo_producto.id %}">{{ combo.codigo_producto }}</a></td>
+        <td>{{ combo.descripcion }}</td>
+        <td>{{ combo.fecha_expiracion }}</td>
+        <td>{{ combo.sede }}</td>
     </tr>
-    {% endfor %}
+{% endfor %}
 											</table>		
 									</div>
 											<br><br>
@@ -146,7 +147,7 @@
 												</tr>
 												{% for producto in productos_oferta %}
     <tr>
-      <td>{{ producto.codigo }}</td>
+      <td><a href="../producto/{{ producto.id }}/">{{ producto.codigo }}</a></td>
       <td>{{ producto.descripcion }}</td>
       <td>{{ producto.pvp_base }}</td>
       <td>{{ producto.la_Urbina_pvp }}</td>

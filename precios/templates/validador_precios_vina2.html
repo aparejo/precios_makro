@@ -75,8 +75,8 @@
 									</div>
 										
 									<div class="col-md-6 text-right" >
-												<span class="badge-cat" style="background-color:#b1f171;">{{ producto.desc_categoria }}</span>
-												<span class="badge-cat" style="background-color:#C9F7F5;">{{ producto.desc_sub_categoria }}</span>
+												<span id="producto-precio1" class="badge-cat" style="background-color:#b1f171;">{{ producto.desc_categoria }}</span>
+												<span id="producto-precio2" class="badge-cat" style="background-color:#C9F7F5;">{{ producto.desc_sub_categoria }}</span>
 									</div>
 										
 							</div>
@@ -84,9 +84,9 @@
 							<div class="row" style="height:60%;padding: 30px;">
 	
 								<div class="col-md-12">
-									<h1 class="text-center title-product">{{ producto.descripcion }}</h1>
-									<h4 class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
-									<p class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
+									<h1 id="producto-nombre" class="text-center title-product">{{ producto.descripcion }}</h1>
+									<h4 id="producto-precio3" class="text-center cod-product">Codigo: {{ producto.codigo }} </h6>
+									<p id="producto-precio4" class="text-center marca" style="color:#1E40AF"> Marca: {{ producto.marca }}</p>
 									{% if combo %}
 									<div class="text-center combo"> {{ descripcion_combo }}</div>
 									{% endif %}
@@ -96,19 +96,19 @@
 							<div class="row" style="height: 20%; background:rgb(255, 255, 255);">
 								<div class="col-md-6">
 									<h4 class="title-price">Precio</h6>
-									<h6 class="price">Bs. {{ pvp_base_bcv|floatformat:2 }}</h6>
+									<h6 id="producto-precio6" class="price">Bs. {{ pvp_base_bcv|floatformat:2 }}</h6>
 								</div>
 								
 								<div class="col-md-6 text-right">
 									<h4 class="title-price">Precio USD</h6>
-									<h6 class="price">{{ pvp_base }}$</h6>
+									<h6 id="producto-precio5" class="price">{{ pvp_base }}$</h6>
 								</div>{% endif %}{% if error %}
 								<p>{{ error }}</p>
 							{% endif %}
 							
 							{% endblock %}
 							</div>
-				
+							<div id="mensaje" style="display: none;"><h2>{{ mensaje }}</h2></div>
 						</div>
 	
 					</div>
@@ -128,12 +128,14 @@
 							
 							{% for oferta in ofertas %}
 							<li>
-								<div class="ofertab">Ofertas</div>
+								<div class="cabezal">
+									<img src="{% static 'images/super-precios.png' %}" alt="Logo" class="logo">
+								</div>
 								<div class="oferta_titulob">{{ oferta.titulo }}</div>
 								<div class="oferta_subb">{{ oferta.subcategoria }}</div>
-								{% if oferta.imagen and oferta.imagen_existente %}
-								<img src="{{ oferta.imagen }}">
-								{% endif %}
+								
+								<img class="productoing"src="{% static 'productos/' %}{{ oferta.codigo|slugify }}.png">
+								
 								<div class="preciob">${{ oferta.precio }}</div>
 								<div class="marcab">{{ oferta.marca }}</div>
 							</li>
@@ -189,7 +191,17 @@
             });
         });
     </script>
-
+	<script>
+		setTimeout(function() {
+			document.getElementById('producto-nombre').innerText = 'Verificador de precios';
+			document.getElementById('producto-precio1').innerText = '';
+			document.getElementById('producto-precio2').innerText = '';
+			document.getElementById('producto-precio3').innerText = '';
+			document.getElementById('producto-precio4').innerText = '';
+			document.getElementById('producto-precio5').innerText = '';
+			document.getElementById('producto-precio6').innerText = '';
+		}, 8000); // 20000 milisegundos = 20 segundos
+	</script>
 </body>
 </html>
 

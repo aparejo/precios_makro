@@ -28,13 +28,7 @@
 											<!--begin::Text-->
 											<div class="fs-5 fw-semibold">Mostrando.</div>
 
-											
-											
-											<table>
-												
-												
-													<tr>
-														<td><div class="card card-stretch">
+											<div class="card2 card card-stretch">
 															<!--begin::Link-->
 															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
 																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
@@ -47,27 +41,26 @@
 																<b>Automercado</b>
 															</a>
 															<!--end::Link-->
-														</div></td>
-														<td><div class="card card-stretch">
-															<!--begin::Link-->
-															<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
-																<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
-																	<span class="path1"></span>
-																	<span class="path2"></span>
-																	<span class="path3"></span>
-																	<span class="path4"></span>
-																</i>
-																<span class="fs-4 fw-bold">Agregar Pantallas</span>
-																<b>Farmacia</b>
-															</a>
-															<!--end::Link-->
-														</div></td>
-														
-														
-														
-													</tr>
-												
-											</table>
+											</div>
+											{% if request.user.is_authenticated and request.user.roles_id == 1 %}
+											<div class="card2 card card-stretch">
+												<!--begin::Link-->
+												<a href="../../agregar-pantalla/" class="btn btn-flex btn-text-gray-800 btn-icon-gray-400 btn-active-color-primary bg-body flex-column justfiy-content-start align-items-start text-start w-100 p-10">
+													<i class="ki-duotone ki-abstract-26 fs-2tx mb-5 ms-n1">
+														<span class="path1"></span>
+														<span class="path2"></span>
+														<span class="path3"></span>
+														<span class="path4"></span>
+													</i>
+													<span class="fs-4 fw-bold">Agregar Pantallas</span>
+													<b>Farmacia</b>
+												</a>
+												<!--end::Link-->
+											</div>
+											{% endif %}
+											
+											
+											
 											<!--end::Text-->
 										</div>
 										

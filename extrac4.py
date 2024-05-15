@@ -11,7 +11,7 @@ django.setup()
 from precios.models import Producto
 from precios.models import TareaActualizacion
 
-url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00060001&codigo_hasta=C00076218"
+url = "http://bg.redvital.com/bgapi.php?modulo=INV&funcion=LISTA_DE_PRECIOS&codigo_desde=C00060001&codigo_hasta=C00080000"
 
 def obtener_datos_y_actualizar():
     try:

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib import admin
-from precios.models import Producto, Sucursal, Usuario, Pantalla, BCV, Combo, Oferta
+from precios.models import Producto, Sucursal, Usuario, Pantalla, BCV, Combo, Oferta, Verificador,FondoVerificador, Roles
 
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ("codigo", "descripcion","La_Vina_pvp", "pvp_base","referencia")
@@ -26,4 +26,16 @@ class ComboAdmin(admin.ModelAdmin):
 
 @admin.register(Oferta)
 class OfertaAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Verificador)
+class VerificadorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(FondoVerificador)
+class FondoVerificadorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Roles)
+class RolesAdmin(admin.ModelAdmin):
     pass

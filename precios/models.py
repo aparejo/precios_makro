@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 from django.core.exceptions import ValidationError
 
+def upload_to(instance, filename):
+    # Generar el nombre de archivo único basado en el código del producto
+    extension = filename.split('.')[-1]
+    return f'productos/{instance.codigo}.{extension}'
+
 class Producto(models.Model):
     codigo = models.CharField(max_length=20, unique=True)
     descripcion = models.CharField(max_length=100)
@@ -19,6 +24,7 @@ class Producto(models.Model):
     sub_categoria = models.CharField(max_length=20)
     desc_sub_categoria = models.CharField(max_length=50)
     existencia_total = models.CharField(max_length=20)
+    imagen = models.ImageField(upload_to=upload_to, blank=True, null=True)
     pvp_base = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
     la_Urbina = models.CharField(max_length=8, default='N/A')
     la_Urbina_pvp = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=None)
@@ -69,14 +75,27 @@ class Producto(models.Model):
 
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100, null=True)
     codigo = models.CharField(max_length=20)
 
     def __str__(self):
         return self.nombre
 
+class Roles(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
 class Usuario(AbstractUser):
-    sucursal_id = models.ForeignKey(Sucursal, null=True, on_delete=models.SET_NULL)
+    sucursal = models.ForeignKey(
+        Sucursal,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='usuarios'
+    )
+    roles = models.ForeignKey(Roles, null=True, on_delete=models.SET_NULL)
     groups = models.ManyToManyField(Group, related_name='usuarios', blank=True)
     user_permissions = models.ManyToManyField(
         'auth.Permission',
@@ -84,7 +103,7 @@ class Usuario(AbstractUser):
         related_name='usuarios',
         blank=True,
         help_text='Specific permissions for this user.',
-        )
+    )
     
     def __str__(self):
         return self.username
@@ -164,3 +183,21 @@ class Oferta(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class FondoVerificador(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    archivo_imagen = models.ImageField(upload_to='fondos_verificador/')
+    archivo_css = models.FileField(upload_to='fondos_verificador_css/', null=True, blank=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Verificador(models.Model):
+    id = models.AutoField(primary_key=True)
+    sucursal = models.ForeignKey('Sucursal', on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True)
+    fondo = models.ForeignKey(FondoVerificador, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.slug

@@ -4,17 +4,70 @@ from .models import Producto, Sucursal
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from .forms import SedeForm
-from .forms import AdminForm, BarcodeForm
-from precios.models import Usuario, Pantalla, BCV, Combo, Oferta
-from .forms import PantallaForm, Pantalla
+from .forms import AdminForm, BarcodeForm, VerificadorForm, FondoVerificador
+from precios.models import Usuario, Pantalla, BCV, Combo, Oferta, Roles
+from .forms import PantallaForm, Pantalla, RolForm, ProductoForm
 from precios.models import TareaActualizacion
 from django.utils import timezone
 from django.db.models import F
 from datetime import datetime
 from django.core.exceptions import ValidationError
+from .models import Verificador, FondoVerificador
+from django.utils.text import slugify
 
 from decimal import Decimal, ROUND_DOWN
 from django.http import JsonResponse
+
+@login_required
+def editar_producto(request, codigo):
+    producto = get_object_or_404(Producto, codigo=codigo)
+
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('productos')
+    else:
+        form = ProductoForm(instance=producto)
+
+    return render(request, 'editar_producto.html', {'form': form})
+
+@login_required
+def crear_rol(request):
+    if request.method == 'POST':
+        form = RolForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('administradores')
+    else:
+        form = RolForm()
+    
+    return render(request, 'crear_rol.html', {'form': form})
+
+@login_required
+def crear_verificador(request):
+    if request.method == 'POST':
+        form = VerificadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('verificadores')  # Redireccionar a la página de verificadores
+    else:
+        form = VerificadorForm()
+
+    context = {'form': form}
+    return render(request, 'verificador/agregar_verificador.html', context)
+
+@login_required
+def verificador_detail(request, slug):
+    verificador = get_object_or_404(Verificador, slug=slug)
+    context = {'verificador': verificador}
+    return render(request, 'verificador/agregar_verificador.html', context)
+
+@login_required
+def fondos_verificador(request):
+    fondos = FondoVerificador.objects.all()
+    context = {'fondos': fondos}
+    return render(request, 'verificador/fondos.html', context)
 
 def obtener_detalles_producto(request, codigo_barras):
     producto = Producto.objects.get(barra=codigo_barras)
@@ -23,6 +76,52 @@ def obtener_detalles_producto(request, codigo_barras):
         'codigo_producto': producto.codigo,
     }
     return JsonResponse(detalles)
+
+def leer_codigo_de_barrasfinal(request, id):
+    context = {}
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:20]
+    sucursal = Sucursal.objects.get(codigo=id)
+    precio = sucursal.slug
+    
+    if request.method == 'POST':
+        form = BarcodeForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                producto = Producto.objects.get(barra=barcode)
+                precio_bcv = BCV.objects.latest('id').precio
+
+                print(f'Producto encontrado: {producto}')
+
+                combos = Combo.objects.filter(codigo_producto=producto)
+
+                print(f'Combos encontrados: {combos}')
+
+                pvp_base = getattr(producto, f'{precio}_pvp') * Decimal(precio_bcv)
+                pvp_base = pvp_base.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
+                pvp_base_bcv = round(pvp_base, 2)
+
+                context['producto'] = producto
+                context['pvp_base_bcv'] = pvp_base_bcv
+                context['pvp_base'] = getattr(producto, f'{precio}_pvp')
+                context['mensaje'] = 'Verificador de precios'
+                if combos.exists():
+                    combo = combos.first()
+                    if combo.fecha_expiracion >= timezone.now().date():
+                        context['combo'] = combo
+                        context['descripcion_combo'] = combo.descripcion
+                else:
+                    print('No se encontraron combos para el producto.')
+            except Producto.DoesNotExist:
+                context['error'] = 'El código de barras no está asociado a ningún producto.'
+            except BCV.DoesNotExist:
+                context['error'] = 'No se encontró el precio del BCV.'
+    else:
+        form = BarcodeForm()
+        context['form'] = form
+
+    return render(request, 'validador_precios_vina2.html', {**context, 'ofertas': ofertas})
+
 
 def leer_codigo_de_barras(request):
     context = {}
@@ -515,13 +614,17 @@ def administradores(request):
 
 @login_required
 def agregar_administrador(request):
-    form = AdminForm()
-
     if request.method == 'POST':
         form = AdminForm(request.POST)
         if form.is_valid():
-            form.save()
+            usuario = form.save(commit=False)
+            sucursal = form.cleaned_data['sucursal']
+            print(sucursal)
+            usuario.sucursal = sucursal
+            usuario.save()
             return redirect('administradores')
+    else:
+        form = AdminForm()
 
     return render(request, 'agregar_administrador.html', {'form': form})
 
@@ -583,11 +686,23 @@ def agregar_sede(request):
         form = SedeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('../..')
+            return redirect('../sucursales')
     else:
         form = SedeForm()
 
     return render(request, 'agregar_sede.html', {'form': form})
+
+@login_required
+def detalle_producto(request, producto_id):
+    producto = Producto.objects.get(id=producto_id)
+    bcv = BCV.objects.order_by('-fecha').first()  # Obtener el último registro
+    precio_bcv = bcv.precio if bcv else None  # Obtener el precio o None si no hay registros
+    context = {
+        'precio_bcv': precio_bcv,
+    }
+    return render(request, 'producto.html', {'producto': producto, **context})
+
+
 
 @login_required
 def crear_combo(request):
@@ -606,9 +721,12 @@ def crear_combo(request):
             if fecha_inicio > fecha_expiracion:
                 raise ValidationError('La fecha de inicio debe ser anterior a la fecha de expiración.')
 
-            # Utiliza el método create() en lugar de instanciar y guardar por separado
+            # Obtén el producto asociado al código de barras
+            producto = Producto.objects.get(barra=codigo_producto)
+
+            # Crea un nuevo combo asociado al producto
             combo = Combo.objects.create(
-                codigo_producto=codigo_producto,
+                codigo_producto=producto,
                 descripcion=descripcion,
                 fecha_inicio=fecha_inicio,
                 fecha_expiracion=fecha_expiracion,
@@ -619,8 +737,8 @@ def crear_combo(request):
             # Redirige a la vista deseada después de guardar exitosamente
             return redirect('../')
 
-        except (ValueError, ValidationError) as e:
-            # Maneja los errores de formato de fecha o validación
+        except (ValueError, ValidationError, Producto.DoesNotExist) as e:
+            # Maneja los errores de formato de fecha, validación o producto no encontrado
             error_message = str(e)
             return render(request, 'agregar_combo.html', {'error_message': error_message})
 
@@ -650,6 +768,16 @@ def ofertasf(request):
         return redirect('promo') 
     
     return render(request, 'ofertafar.html', {'ofertas': ofertas})
+
+def ofertapos(request):
+    ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:40]
+
+    if not ofertas:
+        print("No hay ofertas disponibles")
+        return redirect('promo') 
+    
+    return render(request, 'ofertapos.html', {'ofertas': ofertas})
+
 
 def ofertasf0(request):
     ofertas = Oferta.objects.filter(linea="MEDICAMENTOS")[:6]
